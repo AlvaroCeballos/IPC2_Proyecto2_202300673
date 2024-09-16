@@ -1,6 +1,6 @@
 from .NodoSimple import NodoSimple
 
-class ListaEnlazada:
+class ListaEnlazadaSimple:
     def __init__(self):
         self.primero = None
         self.size = 0

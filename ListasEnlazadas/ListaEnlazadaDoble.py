@@ -1,5 +1,5 @@
 from .NodoDoble import NodoDoble
-class ListaDEnlazada:
+class ListaEnlazadaDoble:
     def __init__(self):
         self.primero = None
         self.ultimo = None

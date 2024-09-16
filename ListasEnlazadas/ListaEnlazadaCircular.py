@@ -1,6 +1,6 @@
 from .NodoCircular import NodoCircular
 
-class listaCircular:
+class listaEnlazadaCircular:
     def __init__(self):
         self.primero = None
         self.size = 0
