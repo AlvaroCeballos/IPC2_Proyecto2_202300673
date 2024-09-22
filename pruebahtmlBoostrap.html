@@ -20,6 +20,46 @@
                 padding: 0;
                 background-color: aqua;
             }
+
+            header {
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 1em;
+                font-weight: bold;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            }
+
+            main {
+        padding: 20px;
+      }
+
+      section {
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        color: #333;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border: 1px solid #333;
+        padding: 8px;
+        text-align: center;
+      }
+      footer {
+        background-color: #333;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+      }
+
         </style>
 </head>
 
@@ -30,7 +70,144 @@
         Prueba de css con html
     </h1>
 </header>
-<main
-</body>
+<main>
+    <section>
+    <h2>Mas informacion</h2>
+    <p>Este es un parrafo de prueba </p>
+</section>
+<section>
+    <h3>Ejemplos de listas</h3>
+    <h6>ORDENADAS</h6>
+    <ol>
+      <li>Elemento1</li>
+      <li>Elemento2</li>
+      <li>Elemento3</li>
+    </ol>
+    <h6>DESORDENADAS</h6>
+    <ul>
+      <li>Elemento1</li>
+      <li>Elemento2</li>
+      <li>Elemento3</li>
+    </ul>
+  </section>
+  <section>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td colspan="2">Larry the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+      <img src="prueba.png" class="rounded mx-auto d-block img-fluid">
+  </section>
+  <section>
+    <div>
+        <h2>Formulario</h2>
+        <form action="#" method="POST"></form>
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre: </label>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="correo" class="form-label">Email: </label>
+              <input
+                type="email"
+                id="correo"
+                name="correo"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="comentario" class="form-label">Comentario: </label>
+              <textarea
+                name="comentario"
+                id="comentario"
+                class="form-control"
+                cols="50"
+                rows="4"
+              ></textarea>
+            </div>
+
+            <input type="submit" value="Enviar" class="btn btn-primary" />
+          </form>
+        </div>
+    </div>
+    <form>
+        <div class="mb-3 mt-3">
+          <label for="exampleInputEmail1" class="form-label"
+            >Email address</label
+          >
+          <input
+            type="email"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+          />
+          <div id="emailHelp" class="form-text">
+            No compartiremos tu correo con nadie.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label"
+            >Password</label
+          >
+          <input
+            type="password"
+            class="form-control"
+            id="exampleInputPassword1"
+          />
+        </div>
+
+        <div class="mb-3 form-check">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="exampleCheck1"
+          />
+          <label class="form-check-label" for="exampleCheck1"
+            >Test de check</label
+          >
+        </div>
+
+        <button type="submit" class="btn btn-warning">Submit</button>
+      </form>
+  </section>
+</main>
+<footer>
+    <p>IPC2 2S2024 - CLASE DE HTML BÁSICO</p>
+  </footer>
+ </body>
 
 </html>
