@@ -43,12 +43,12 @@ class listaMaquinasXML:
                 maquinaActualLista = maquinaActualLista.sigMaquinaLista
             maquinaActualLista.sigMaquinaLista = maquinaNuevaActual
 
-def getTextContent(element, tag_name):
-    tag = element.getElementsByTagName(tag_name)
-    if tag:
-        for node in tag:
-            if node.firstChild:
-                return node.firstChild.nodeValue.strip()
+def obtenerContextoActualLectura(elementoActualLectura, tagActualLectura):
+    elementoTagA = elementoActualLectura.getElementsByTagName(tagActualLectura)
+    if elementoTagA:
+        for nodoActualL in elementoTagA:
+            if nodoActualL.firstChild:
+                return nodoActualL.firstChild.nodeValue.strip()
     return ''
 
 def lecturaXMLActual(pathActualXML):
@@ -60,17 +60,17 @@ def lecturaXMLActual(pathActualXML):
         listaActualMaquinasLectura = listaMaquinasXML()
 
         for maquinaActualLexturaXML in maquinasLecturaActual:
-            nomActualMaquina = getTextContent(maquinaActualLexturaXML, 'NombreMaquina')
-            totalLineasPactual = int(getTextContent(maquinaActualLexturaXML, 'CantidadLineasProduccion'))
-            totalActualNodo = int(getTextContent(maquinaActualLexturaXML, 'CantidadComponentes'))
-            tiempoEnsamblajeA = int(getTextContent(maquinaActualLexturaXML, 'TiempoEnsamblaje'))
+            nomActualMaquina = obtenerContextoActualLectura(maquinaActualLexturaXML, 'NombreMaquina')
+            totalLineasPactual = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'CantidadLineasProduccion'))
+            totalActualNodo = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'CantidadComponentes'))
+            tiempoEnsamblajeA = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'TiempoEnsamblaje'))
 
             productosActualesMaquinaLectura = maquinaActualLexturaXML.getElementsByTagName('Producto')
             listaActualProductosMaquina = listaActualProductosXML()
 
             for productoActualLect in productosActualesMaquinaLectura:
-                nombreProductoActual = getTextContent(productoActualLect, 'nombre')
-                procesoElabAct = getTextContent(productoActualLect, 'elaboracion')
+                nombreProductoActual = obtenerContextoActualLectura(productoActualLect, 'nombre')
+                procesoElabAct = obtenerContextoActualLectura(productoActualLect, 'elaboracion')
                 listaActualProductosMaquina.insertarProductoActualListaE(nombreProductoActual, procesoElabAct)
 
             listaActualMaquinasLectura.agregarMaquinaActualNodo(nomActualMaquina, totalLineasPactual, totalActualNodo, tiempoEnsamblajeA, listaActualProductosMaquina)
