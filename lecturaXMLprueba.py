@@ -43,6 +43,14 @@ class listaMaquinasXML:
                 maquinaActualLista = maquinaActualLista.sigMaquinaLista
             maquinaActualLista.sigMaquinaLista = maquinaNuevaActual
 
+def getTextContent(element, tag_name):
+    tag = element.getElementsByTagName(tag_name)
+    if tag:
+        for node in tag:
+            if node.firstChild:
+                return node.firstChild.nodeValue.strip()
+    return ''
+
 def lecturaXMLActual(pathActualXML):
     try:
         parseoActualXML = minidom.parse(pathActualXML)
@@ -52,17 +60,17 @@ def lecturaXMLActual(pathActualXML):
         listaActualMaquinasLectura = listaMaquinasXML()
 
         for maquinaActualLexturaXML in maquinasLecturaActual:
-            nomActualMaquina = maquinaActualLexturaXML.getElementsByTagName('NombreMaquina')[0].firstChild.nodeValue.strip()
-            totalLineasPactual = int(maquinaActualLexturaXML.getElementsByTagName('CantidadLineasProduccion')[0].firstChild.nodeValue.strip())
-            totalActualNodo = int(maquinaActualLexturaXML.getElementsByTagName('CantidadComponentes')[0].firstChild.nodeValue.strip())
-            tiempoEnsamblajeA = int(maquinaActualLexturaXML.getElementsByTagName('TiempoEnsamblaje')[0].firstChild.nodeValue.strip())
+            nomActualMaquina = getTextContent(maquinaActualLexturaXML, 'NombreMaquina')
+            totalLineasPactual = int(getTextContent(maquinaActualLexturaXML, 'CantidadLineasProduccion'))
+            totalActualNodo = int(getTextContent(maquinaActualLexturaXML, 'CantidadComponentes'))
+            tiempoEnsamblajeA = int(getTextContent(maquinaActualLexturaXML, 'TiempoEnsamblaje'))
 
             productosActualesMaquinaLectura = maquinaActualLexturaXML.getElementsByTagName('Producto')
             listaActualProductosMaquina = listaActualProductosXML()
 
             for productoActualLect in productosActualesMaquinaLectura:
-                nombreProductoActual = productoActualLect.getElementsByTagName('nombre')[0].firstChild.nodeValue.strip()
-                procesoElabAct = productoActualLect.getElementsByTagName('elaboracion')[0].firstChild.nodeValue.strip()
+                nombreProductoActual = getTextContent(productoActualLect, 'nombre')
+                procesoElabAct = getTextContent(productoActualLect, 'elaboracion')
                 listaActualProductosMaquina.insertarProductoActualListaE(nombreProductoActual, procesoElabAct)
 
             listaActualMaquinasLectura.agregarMaquinaActualNodo(nomActualMaquina, totalLineasPactual, totalActualNodo, tiempoEnsamblajeA, listaActualProductosMaquina)
