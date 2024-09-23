@@ -44,9 +44,9 @@ def submit():
     Cantidad = request.form['Cantidad']
     Imagen = request.form['Imagen']
 
-    carroCreado = Carro(idTipoAuto, Marca, Modelo, Descripcion, Precio_unitario, Cantidad, Imagen)
-    Lcarro.append(carroCreado)
-    print(carroCreado)
+    # carroCreado = Carro(idTipoAuto, Marca, Modelo, Descripcion, Precio_unitario, Cantidad, Imagen)
+    # Lcarro.append(carroCreado)
+    # print(carroCreado)
 
     return redirect(url_for('agregar'))
 
