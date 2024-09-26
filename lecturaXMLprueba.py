@@ -13,9 +13,9 @@ def obtenerContextoActualLectura(elementoActualLectura, tagActualLectura):
                 return nodoActualL.firstChild.nodeValue.strip()
     return ''
 
-def lecturaXMLActual(pathActualXML):
+def lecturaXMLActual(xmlString):
     try:
-        parseoActualXML = minidom.parse(pathActualXML)
+        parseoActualXML = minidom.parseString(xmlString)
         raizActualXML = parseoActualXML.documentElement
 
         maquinasLecturaActual = raizActualXML.getElementsByTagName('Maquina')
@@ -42,7 +42,7 @@ def lecturaXMLActual(pathActualXML):
             print(f"Nombre maquina actual: {actualMaquina.nombreM}")
             print(f"Total actual de lineas de produccion: {actualMaquina.cantidadLineas}")
             print(f"Componentes actuales: {actualMaquina.cantidadComponentes}")
-            print(f"Tiempo total: {actualMaquina.tiempoEnsamblajeA} minutos")
+            print(f"Tiempo en ensamblar una pieza: {actualMaquina.tiempoEnsamblajeA} segundos")
             print("Lista productos maquina actual:")
             actualProducto = actualMaquina.conjuntoProductos.primerProducto
             while actualProducto:
@@ -55,5 +55,3 @@ def lecturaXMLActual(pathActualXML):
 
     except Exception as errorActualLectura:
         print(f"Error de lectura XML: {errorActualLectura}")
-
-lecturaXMLActual('prueba.xml')
