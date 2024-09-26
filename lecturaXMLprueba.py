@@ -1,4 +1,6 @@
 from xml.dom import minidom
+from Maquina import Maquina
+from Producto import Producto
 
 class nodoActualProductoXML:
     def __init__(self, nombreProductoActual, procesoElabAct):

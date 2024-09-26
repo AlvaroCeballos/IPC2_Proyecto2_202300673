@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-[#abbd7b]">
+    {% extends 'navBar.html' %} {% block contenido %}
+    <div>
+      <div class="container mx-auto h-screen flex justify-center items-center">
+        <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+        
+          <div class="px-6 py-4">
+            <div class="font-bold text-xl mb-2">carro nuevo</div>
+
+            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="/submit" method="POST">
+              <div class="mb-4">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="idTipoAuto"
+                >
+                  idTipoAuto
+                </label>
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="idTipoAuto"
+                  name="idTipoAuto"
+                  type="text"
+                  placeholder="idTipoAuto del carro"
+                />
+              </div>
+
+
+              <div class="mb-4">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="Marca"
+                >
+                  Marca
+                </label>
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="Marca"
+                  name="Marca"
+                  type="text"
+                  placeholder="Marca"
+                />
+              </div>
+              <div class="mb-6">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="Modelo"
+                >
+                  Modelo
+                </label>
+                <input
+                  class="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  id="Modelo"
+                  name="Modelo"
+                  type="text"
+                  placeholder="Modelo"
+                />
+              </div>
+
+
+              <div class="mb-4">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="Descripcion"
+                >
+                Descripcion
+                </label>
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="Descripcion"
+                  name="Descripcion"
+                  type="text"
+                  placeholder="Descripcion "
+                />
+
+
+
+
+                <div class="mb-4">
+                    <label
+                      class="block text-gray-700 text-sm font-bold mb-2"
+                      for="Precio_unitario"
+                    >
+                    Precio_unitario
+                    </label>
+                    <input
+                      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="Precio_unitario"
+                      name="Precio_unitario"
+                      type="text"
+                      placeholder="Precio_unitario"
+                    />
+
+
+
+
+                    <div class="mb-4">
+                        <label
+                          class="block text-gray-700 text-sm font-bold mb-2"
+                          for="Cantidad"
+                        >
+                        Cantidad
+                        </label>
+                        <input
+                          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                          id="Cantidad"
+                          name="Cantidad"
+                          type="text"
+                          placeholder="Cantidad"
+                        />
+
+
+                        <div class="mb-4">
+                            <label
+                              class="block text-gray-700 text-sm font-bold mb-2"
+                              for="Imagen"
+                            >
+                            Imagen
+                            </label>
+                            <input
+                              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                              id="Imagen"
+                              name="Imagen"
+                              type="text"
+                              placeholder="Imagen"
+                            />
+
+
+
+
+              <div class="flex items-center justify-between"></div>
+                <button
+                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="submit"
+                >
+                  Guardar
+                </button>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endblock %}
+  </body>
+</html>
