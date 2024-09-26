@@ -5,3 +5,6 @@ class Maquina():
         self.cantidadComponentes = cantidadComponentes
         self.tiempoEnsamblaje = tiempoEnsamblaje
         self.conjuntoProductos = conjuntoProductos
+
+        def __str__(self):
+            return f'{self.nombreM} {self.cantidadLineas} {self.cantidadComponentes} {self.tiempoEnsamblaje} {self.conjuntoProductos}'

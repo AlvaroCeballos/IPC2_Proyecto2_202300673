@@ -1,7 +1,5 @@
-class Producto():
+class nodoProductoXML:
     def __init__(self, nombreProducto, elaboracion):
         self.nombreProducto = nombreProducto
         self.elaboracion = elaboracion
-
-    def __str__(self):
-        return f'{self.nombreProducto} {self.elaboracion}'
+        self.siguienteProducto = None

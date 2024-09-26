@@ -1,49 +1,9 @@
 from xml.dom import minidom
 from Maquina import Maquina
 from Producto import Producto
+from ListasEnlazadas.listaProductosXML import listaProductosXML
+from ListasEnlazadas.listaMaquinasXML import listaMaquinasXML
 
-class nodoActualProductoXML:
-    def __init__(self, nombreProductoActual, procesoElabAct):
-        self.nombreProductoActual = nombreProductoActual
-        self.procesoElabAct = procesoElabAct
-        self.siguienteProductoListaA = None
-
-class listaActualProductosXML:
-    def __init__(self):
-        self.primerProductoListaA = None
-
-    def insertarProductoActualListaE(self, nombreProductoActual, procesoElabAct):
-        productoNuevoActualLista = nodoActualProductoXML(nombreProductoActual, procesoElabAct)
-        if not self.primerProductoListaA:
-            self.primerProductoListaA = productoNuevoActualLista
-        else:
-            productoActLista = self.primerProductoListaA
-            while productoActLista.siguienteProductoListaA:
-                productoActLista = productoActLista.siguienteProductoListaA
-            productoActLista.siguienteProductoListaA = productoNuevoActualLista
-
-class nodoMaquinaActualLista:
-    def __init__(self, nomActualMaquina, totalLineasPactual, totalActualNodo, tiempoEnsamblajeA, listaActualProductosMaquina):
-        self.nomActualMaquina = nomActualMaquina
-        self.totalLineasPactual = totalLineasPactual
-        self.totalActualNodo = totalActualNodo
-        self.tiempoEnsamblajeA = tiempoEnsamblajeA
-        self.listaActualProductosMaquina = listaActualProductosMaquina
-        self.sigMaquinaLista = None
-
-class listaMaquinasXML:
-    def __init__(self):
-        self.primerMlistaAct = None
-
-    def agregarMaquinaActualNodo(self, nomActualMaquina, totalLineasPactual, totalActualNodo, tiempoEnsamblajeA, listaActualProductosMaquina):
-        maquinaNuevaActual = nodoMaquinaActualLista(nomActualMaquina, totalLineasPactual, totalActualNodo, tiempoEnsamblajeA, listaActualProductosMaquina)
-        if not self.primerMlistaAct:
-            self.primerMlistaAct = maquinaNuevaActual
-        else:
-            maquinaActualLista = self.primerMlistaAct
-            while maquinaActualLista.sigMaquinaLista:
-                maquinaActualLista = maquinaActualLista.sigMaquinaLista
-            maquinaActualLista.sigMaquinaLista = maquinaNuevaActual
 
 def obtenerContextoActualLectura(elementoActualLectura, tagActualLectura):
     elementoTagA = elementoActualLectura.getElementsByTagName(tagActualLectura)
@@ -62,36 +22,36 @@ def lecturaXMLActual(pathActualXML):
         listaActualMaquinasLectura = listaMaquinasXML()
 
         for maquinaActualLexturaXML in maquinasLecturaActual:
-            nomActualMaquina = obtenerContextoActualLectura(maquinaActualLexturaXML, 'NombreMaquina')
-            totalLineasPactual = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'CantidadLineasProduccion'))
-            totalActualNodo = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'CantidadComponentes'))
+            nombreM = obtenerContextoActualLectura(maquinaActualLexturaXML, 'NombreMaquina')
+            cantidadLineas = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'CantidadLineasProduccion'))
+            cantidadComponentes = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'CantidadComponentes'))
             tiempoEnsamblajeA = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'TiempoEnsamblaje'))
 
             productosActualesMaquinaLectura = maquinaActualLexturaXML.getElementsByTagName('Producto')
-            listaActualProductosMaquina = listaActualProductosXML()
+            conjuntoProductos = listaProductosXML()
 
             for productoActualLect in productosActualesMaquinaLectura:
-                nombreProductoActual = obtenerContextoActualLectura(productoActualLect, 'nombre')
-                procesoElabAct = obtenerContextoActualLectura(productoActualLect, 'elaboracion')
-                listaActualProductosMaquina.insertarProductoActualListaE(nombreProductoActual, procesoElabAct)
+                nombreProducto = obtenerContextoActualLectura(productoActualLect, 'nombre')
+                elaboracion = obtenerContextoActualLectura(productoActualLect, 'elaboracion')
+                conjuntoProductos.insertarProductoXML(nombreProducto, elaboracion)
 
-            listaActualMaquinasLectura.agregarMaquinaActualNodo(nomActualMaquina, totalLineasPactual, totalActualNodo, tiempoEnsamblajeA, listaActualProductosMaquina)
+            listaActualMaquinasLectura.InsertarMaquina(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos)
 
-        maquinaActualLista = listaActualMaquinasLectura.primerMlistaAct
-        while maquinaActualLista:
-            print(f"Nombre maquina actual: {maquinaActualLista.nomActualMaquina}")
-            print(f"Total actual de lineas de produccion: {maquinaActualLista.totalLineasPactual}")
-            print(f"Componentes actuales: {maquinaActualLista.totalActualNodo}")
-            print(f"Tiempo total: {maquinaActualLista.tiempoEnsamblajeA} minutos")
+        actualMaquina = listaActualMaquinasLectura.primerMaquina
+        while actualMaquina:
+            print(f"Nombre maquina actual: {actualMaquina.nombreM}")
+            print(f"Total actual de lineas de produccion: {actualMaquina.cantidadLineas}")
+            print(f"Componentes actuales: {actualMaquina.cantidadComponentes}")
+            print(f"Tiempo total: {actualMaquina.tiempoEnsamblajeA} minutos")
             print("Lista productos maquina actual:")
-            productoActLista = maquinaActualLista.listaActualProductosMaquina.primerProductoListaA
-            while productoActLista:
-                print(f"Nombre actual de producto: {productoActLista.nombreProductoActual}")
+            actualProducto = actualMaquina.conjuntoProductos.primerProducto
+            while actualProducto:
+                print(f"Nombre actual de producto: {actualProducto.nombreProducto}")
                 print(" Elaboracion proceso:")
-                for paso in productoActLista.procesoElabAct.split():
+                for paso in actualProducto.elaboracion.split():
                     print(f"  - {paso}")
-                productoActLista = productoActLista.siguienteProductoListaA
-            maquinaActualLista = maquinaActualLista.sigMaquinaLista
+                actualProducto = actualProducto.siguienteProducto
+            actualMaquina = actualMaquina.siguienteMaquina
 
     except Exception as errorActualLectura:
         print(f"Error de lectura XML: {errorActualLectura}")
