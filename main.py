@@ -10,6 +10,7 @@ from Producto import Producto
 from ListasEnlazadas.listaProductosXML import listaProductosXML
 from ListasEnlazadas.listaMaquinasXML import listaMaquinasXML
 from lecturaXMLprueba import obtenerContextoActualLectura, lecturaXMLActual
+import lecturaXMLprueba
 
 app = Flask(__name__)
 app.secret_key = 'pruebaClaveSuperSegura'
@@ -48,13 +49,20 @@ def lecturaXML():
     except Exception as e:
         flash(f"Error al procesar el archivo XML: {str(e)}", "error")
         return redirect("LeerXML")
+    
 
-@app.route('/Agregar')
-def agregar():
-    return render_template('form.html')
+@app.route('/borrarDatos', methods=['POST'])
+def borrarDatos():
+    lecturaXMLprueba.reiniciarListaGlobal()  # Reiniciar la lista
+    flash("Datos borrados correctamente", "success")
+    return redirect('/')
 
-@app.route('/submit', methods=['POST']) 
-def submit():
+# @app.route('/Agregar')
+# def agregar():
+#     return render_template('form.html')
+
+# @app.route('/submit', methods=['POST']) 
+# def submit():
     # idTipoAuto = request.form['idTipoAuto']
     # Marca = request.form['Marca']
     # Modelo = request.form['Modelo']

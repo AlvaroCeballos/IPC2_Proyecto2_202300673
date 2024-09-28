@@ -4,7 +4,6 @@ from Producto import Producto
 from ListasEnlazadas.listaProductosXML import listaProductosXML
 from ListasEnlazadas.listaMaquinasXML import listaMaquinasXML
 
-listaGlobalMaquinasLectura = listaMaquinasXML()
 
 
 def obtenerContextoActualLectura(elementoActualLectura, tagActualLectura):
@@ -57,3 +56,7 @@ def lecturaXMLActual(xmlString):
 
     except Exception as errorActualLectura:
         print(f"Error de lectura XML: {errorActualLectura}")
+
+def reiniciarListaGlobal():
+    global listaGlobalMaquinasLectura
+    listaGlobalMaquinasLectura = listaMaquinasXML()

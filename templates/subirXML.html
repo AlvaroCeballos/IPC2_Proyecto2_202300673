@@ -5,8 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Subir XML</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('https://images.ecestaticos.com/MUsrmUgYGUwR5M6ZyyHCDmeFRUk=/0x0:2121x1414/1200x900/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2Fd9e%2F66d%2F793%2Fd9e66d793adbc994841e60850a17e61c.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  </style>
 </head>
-<body class="bg-gray-100">
+<body>
+  {% extends 'navBar.html' %}
+  {% block contenido %}
   <div class="container mx-auto h-screen flex justify-center items-center">
     <div class="max-w-lg rounded-lg overflow-hidden shadow-2xl bg-white p-10 border border-gray-300">
 
@@ -54,5 +64,6 @@
       </form>
     </div>
   </div>
+  {% endblock %}
 </body>
 </html>
