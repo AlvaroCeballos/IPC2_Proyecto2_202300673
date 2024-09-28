@@ -25,11 +25,11 @@ def leer():
 def lecturaXML():
     try:
 
-        if 'archivoEntrada' not in request.files:
+        if 'xmlFile' not in request.files:
             flash("No se encontró el archivo XML", "error")
             return redirect("LeerXML")
         
-        file = request.files['archivoEntrada']
+        file = request.files['xmlFile']
         
         if file.filename == '':
             flash("Por favor seleccionar un archivo XML", "error")
@@ -49,7 +49,40 @@ def lecturaXML():
     except Exception as e:
         flash(f"Error al procesar el archivo XML: {str(e)}", "error")
         return redirect("LeerXML")
-    
+#---------------------------------------------------------------------------------
+@app.route('/salidaArchivosht')
+def salida():
+    return render_template('archivosSalida.html')
+
+@app.route('/archivosSalida', methods=['POST'])
+def archivosSalida():
+    try:
+
+        if 'xmlFile' not in request.files:
+            flash("No se encontró el archivo XML", "error")
+            return redirect("salidaArchivosht")
+        
+        file = request.files['xmlFile']
+        
+        if file.filename == '':
+            flash("Por favor seleccionar un archivo XML", "error")
+            return redirect("salidaArchivosht")
+        
+        if file and file.filename.endswith('.xml'):
+            xmlString = file.read().decode('utf-8')
+            
+
+            lecturaXMLActual(xmlString)
+            
+            flash("Archivo XML leido correctamente", "success")
+            return redirect("salidaArchivosht")
+        else:
+            flash("Por favor elegir un archivo tipo XML", "error")
+            return redirect("salidaArchivosht")
+    except Exception as e:
+        flash(f"Error al procesar el archivo XML: {str(e)}", "error")
+        return redirect("salidaArchivosht")
+#---------------------------------------------------------------------------------
 
 @app.route('/borrarDatos', methods=['POST'])
 def borrarDatos():

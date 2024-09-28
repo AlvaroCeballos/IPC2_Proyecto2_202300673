@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-[#abbd7b]">
+    {% extends 'navBar.html' %} 
+    {% block contenido %}
+    <div class="container mx-auto h-screen flex justify-center items-center">
+        <div class="w-full rounded overflow-hidden shadow-lg bg-white mx-5">
+            <table class="w-full table-auto">
+                <thead>
+                  <tr>
+                    <th class="px-4 py-2">idTipoAuto</th>
+                    <th class="px-4 py-2">Marca</th>
+                    <th class="px-4 py-2">Modelo</th>
+                    <th class="px-4 py-2">Descripcion</th>
+                    <th class="px-4 py-2">Precio</th>
+                    <th class="px-4 py-2">Cantidad</th>
+                    <th class="px-4 py-2">Imagen</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                    {%for carrro in listado %}
+                    <tr class="hover:bg-gray-100">
+                        <td class="border px-4 py-2 ">{{carrro.idTipoAuto}}</td>
+                        <td class="border px-4 py-2 ">{{carrro.Marca}}</td>
+                        <td class="border px-4 py-2 ">{{carrro.Modelo}}</td>
+                        <td class="border px-4 py-2 ">{{carrro.Descripcion}}</td>
+                        <td class="border px-4 py-2 ">{{carrro.Precio_unitario}}</td>
+                        <td class="border px-4 py-2 ">{{carrro.Cantidad}}</td>
+                        <td class="border px-4 py-2 "><img src="{{carrro.Imagen}}" alt="Imagen" class="w-20 h-20"></td>
+ 
+                    </tr>
+                    {%endfor%}
+                </tbody>
+              </table>
+          </div>
+    </div>
+    
+    {% endblock %}
+  </body>
+</html>
