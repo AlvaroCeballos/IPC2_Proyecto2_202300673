@@ -4,6 +4,8 @@ from Producto import Producto
 from ListasEnlazadas.listaProductosXML import listaProductosXML
 from ListasEnlazadas.listaMaquinasXML import listaMaquinasXML
 
+listaGlobalMaquinasLectura = listaMaquinasXML()
+
 
 def obtenerContextoActualLectura(elementoActualLectura, tagActualLectura):
     elementoTagA = elementoActualLectura.getElementsByTagName(tagActualLectura)
@@ -19,7 +21,7 @@ def lecturaXMLActual(xmlString):
         raizActualXML = parseoActualXML.documentElement
 
         maquinasLecturaActual = raizActualXML.getElementsByTagName('Maquina')
-        listaActualMaquinasLectura = listaMaquinasXML()
+
 
         for maquinaActualLexturaXML in maquinasLecturaActual:
             nombreM = obtenerContextoActualLectura(maquinaActualLexturaXML, 'NombreMaquina')
@@ -35,9 +37,9 @@ def lecturaXMLActual(xmlString):
                 elaboracion = obtenerContextoActualLectura(productoActualLect, 'elaboracion')
                 conjuntoProductos.insertarProductoXML(nombreProducto, elaboracion)
 
-            listaActualMaquinasLectura.InsertarMaquina(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos)
+            listaGlobalMaquinasLectura.InsertarMaquina(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos)
 
-        actualMaquina = listaActualMaquinasLectura.primerMaquina
+        actualMaquina = listaGlobalMaquinasLectura.primerMaquina
         while actualMaquina:
             print(f"Nombre maquina actual: {actualMaquina.nombreM}")
             print(f"Total actual de lineas de produccion: {actualMaquina.cantidadLineas}")

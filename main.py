@@ -12,26 +12,42 @@ from ListasEnlazadas.listaMaquinasXML import listaMaquinasXML
 from lecturaXMLprueba import obtenerContextoActualLectura, lecturaXMLActual
 
 app = Flask(__name__)
-app.secret_key = 'mi_clave_secreta_super_segura_123'
+app.secret_key = 'pruebaClaveSuperSegura'
 
 
 
+@app.route('/LeerXML')
+def leer():
+    return render_template('subirXML.html')
 
-@app.route('/lecturaXML', methods=['POST'])  # Cambiar a POST
+@app.route('/lecturaXML', methods=['POST'])
 def lecturaXML():
     try:
-        # Obtener el contenido del XML desde la solicitud POST
-        xmlString = request.data.decode('utf-8')
+        # Obtener el archivo XML desde la solicitud POST
+        if 'xmlFile' not in request.files:
+            flash("No se encontró el archivo", "error")
+            return redirect("LeerXML")
         
-        # Llamar a la función modificada para procesar el XML
-        lecturaXMLActual(xmlString)
+        file = request.files['xmlFile']
         
-        return "Se leyó correctamente el XML", 200
+        if file.filename == '':
+            flash("No se seleccionó ningún archivo", "error")
+            return redirect("LeerXML")
+        
+        if file and file.filename.endswith('.xml'):
+            xmlString = file.read().decode('utf-8')
+            
+            # Llamar a la función modificada para procesar el XML
+            lecturaXMLActual(xmlString)
+            
+            flash("Se leyó correctamente el XML", "success")
+            return redirect("LeerXML")
+        else:
+            flash("Formato de archivo no soportado", "error")
+            return redirect("LeerXML")
     except Exception as e:
-        return str(e), 400
-
-    return "Se leyó correctamente el XML"
-
+        flash(f"Error al procesar el archivo XML: {str(e)}", "error")
+        return redirect("LeerXML")
 
 @app.route('/Agregar')
 def agregar():
@@ -58,7 +74,7 @@ def submit():
 
 
 
-@app.route('/ayuda')
+@app.route('/')
 def listar():
     return render_template('index.html')
 
@@ -69,63 +85,8 @@ if __name__ == '__main__':
     listaSimple = ListaEnlazadaSimple()
     app.run(debug=True) 
 
-def CargarArchivo(rutaArchivo):
-    if os.path.exists(rutaArchivo):
-        print('El archivo se ha cargado correctamente')
-        return True
-    else:
-        print('El archivo no existe')
-        return False
+
     
 
-def obtenerContextoActualLectura(elementoActualLectura, tagActualLectura):
-    elementoTagA = elementoActualLectura.getElementsByTagName(tagActualLectura)
-    if elementoTagA:
-        for nodoActualL in elementoTagA:
-            if nodoActualL.firstChild:
-                return nodoActualL.firstChild.nodeValue.strip()
-    return ''
 
-def lecturaXMLActual(xmlString):
-    try:
-        parseoActualXML = minidom.parseString(xmlString)
-        raizActualXML = parseoActualXML.documentElement
-
-        maquinasLecturaActual = raizActualXML.getElementsByTagName('Maquina')
-        listaActualMaquinasLectura = listaMaquinasXML()
-
-        for maquinaActualLexturaXML in maquinasLecturaActual:
-            nombreM = obtenerContextoActualLectura(maquinaActualLexturaXML, 'NombreMaquina')
-            cantidadLineas = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'CantidadLineasProduccion'))
-            cantidadComponentes = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'CantidadComponentes'))
-            tiempoEnsamblajeA = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'TiempoEnsamblaje'))
-
-            productosActualesMaquinaLectura = maquinaActualLexturaXML.getElementsByTagName('Producto')
-            listaconjuntoProductos = listaProductosXML()
-
-            for productoActualLect in productosActualesMaquinaLectura:
-                nombreProducto = obtenerContextoActualLectura(productoActualLect, 'nombre')
-                elaboracion = obtenerContextoActualLectura(productoActualLect, 'elaboracion')
-                listaconjuntoProductos.insertarProductoXML(nombreProducto, elaboracion)
-
-            listaActualMaquinasLectura.InsertarMaquina(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, listaconjuntoProductos)
-
-        actualMaquina = listaActualMaquinasLectura.primerMaquina
-        while actualMaquina:
-            print(f"Nombre maquina actual: {actualMaquina.nombreM}")
-            print(f"Total actual de lineas de produccion: {actualMaquina.cantidadLineas}")
-            print(f"Componentes actuales: {actualMaquina.cantidadComponentes}")
-            print(f"Tiempo en ensamblar una pieza: {actualMaquina.tiempoEnsamblajeA} segundos")
-            print("Lista productos maquina actual:")
-            actualProducto = actualMaquina.listaconjuntoProductos.primerProducto
-            while actualProducto:
-                print(f"Nombre actual de producto: {actualProducto.nombreProducto}")
-                print(" Elaboracion proceso:")
-                for paso in actualProducto.elaboracion.split():
-                    print(f"  - {paso}")
-                actualProducto = actualProducto.siguienteProducto
-            actualMaquina = actualMaquina.siguienteMaquina
-
-    except Exception as errorActualLectura:
-        print(f"Error de lectura XML: {errorActualLectura}")
     
