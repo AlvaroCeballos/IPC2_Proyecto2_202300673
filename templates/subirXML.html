@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Subir XML</title>
+  <title>Archivo de entrada</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     body {
@@ -30,20 +30,20 @@
           {% endfor %}
         </div>
       {% endif %}
-    {% endwith %}
+      {% endwith %}
 
       <form class="bg-white rounded-lg px-12 pt-8 pb-8" action="/lecturaXML" method="POST" enctype="multipart/form-data">
         <div class="mb-8 text-center">
           <h1 class="text-4xl font-extrabold text-gray-800 mb-4">
-            Subir Documento XML
+            Subir archivo de entrada
           </h1>
           <p class="text-lg text-gray-700 mb-6">
-            Selecciona un archivo XML para subirlo y procesarlo.
+            Abajo deberás seleccionar un archivo XML con los datos de las máquinas.
           </p>
         </div>
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="xmlFile">
-            Archivo XML
+            Archivo XML a subir:
           </label>
           <input
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -53,7 +53,7 @@
             accept=".xml"
           />
         </div>
-        <div class="flex items-center justify-between">
+        <div class="flex justify-center">
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"

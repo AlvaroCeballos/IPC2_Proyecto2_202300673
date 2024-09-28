@@ -24,27 +24,27 @@ def leer():
 @app.route('/lecturaXML', methods=['POST'])
 def lecturaXML():
     try:
-        # Obtener el archivo XML desde la solicitud POST
-        if 'xmlFile' not in request.files:
-            flash("No se encontró el archivo", "error")
+
+        if 'archivoEntrada' not in request.files:
+            flash("No se encontró el archivo XML", "error")
             return redirect("LeerXML")
         
-        file = request.files['xmlFile']
+        file = request.files['archivoEntrada']
         
         if file.filename == '':
-            flash("No se seleccionó ningún archivo", "error")
+            flash("Por favor seleccionar un archivo XML", "error")
             return redirect("LeerXML")
         
         if file and file.filename.endswith('.xml'):
             xmlString = file.read().decode('utf-8')
             
-            # Llamar a la función modificada para procesar el XML
+
             lecturaXMLActual(xmlString)
             
-            flash("Se leyó correctamente el XML", "success")
+            flash("Archivo XML leido correctamente", "success")
             return redirect("LeerXML")
         else:
-            flash("Formato de archivo no soportado", "error")
+            flash("Por favor elegir un archivo tipo XML", "error")
             return redirect("LeerXML")
     except Exception as e:
         flash(f"Error al procesar el archivo XML: {str(e)}", "error")
@@ -53,8 +53,8 @@ def lecturaXML():
 
 @app.route('/borrarDatos', methods=['POST'])
 def borrarDatos():
-    lecturaXMLprueba.reiniciarListaGlobal()  # Reiniciar la lista
-    flash("Datos borrados correctamente", "success")
+    lecturaXMLprueba.reiniciarListaGlobal()  
+    flash("Porgrama inicializado correctamnte", "success")
     return redirect('/')
 
 # @app.route('/Agregar')
