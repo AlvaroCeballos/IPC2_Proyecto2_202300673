@@ -89,32 +89,6 @@ def borrarDatos():
     lecturaXMLprueba.reiniciarListaGlobal()  
     flash("Porgrama inicializado correctamnte", "success")
     return redirect('/')
-
-# @app.route('/Agregar')
-# def agregar():
-#     return render_template('form.html')
-
-# @app.route('/submit', methods=['POST']) 
-# def submit():
-    # idTipoAuto = request.form['idTipoAuto']
-    # Marca = request.form['Marca']
-    # Modelo = request.form['Modelo']
-    # Descripcion = request.form['Descripcion']
-    # Precio_unitario = request.form['Precio_unitario']
-    # Cantidad = request.form['Cantidad']
-    # Imagen = request.form['Imagen']
-
-    # carroCreado = Carro(idTipoAuto, Marca, Modelo, Descripcion, Precio_unitario, Cantidad, Imagen)
-    # Lcarro.append(carroCreado)
-    # print(carroCreado)
-
-
-    pass
-
-    
-
-
-
 @app.route('/')
 def listar():
     return render_template('index.html')
@@ -125,9 +99,3 @@ if __name__ == '__main__':
     listaDoble = ListaEnlazadaDoble()
     listaSimple = ListaEnlazadaSimple()
     app.run(debug=True) 
-
-
-    
-
-
-    
