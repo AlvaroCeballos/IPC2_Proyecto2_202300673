@@ -3,6 +3,7 @@ from Maquina import Maquina
 from Producto import Producto
 from ListasEnlazadas.listaProductosXML import listaProductosXML
 from ListasEnlazadas.listaMaquinasXML import listaMaquinasXML
+from ListasEnlazadas.pruebaCola import ColaElaboracion
 
 
 
@@ -35,6 +36,20 @@ def lecturaXMLActual(xmlString):
                 nombreProducto = obtenerContextoActualLectura(productoActualLect, 'nombre')
                 elaboracion = obtenerContextoActualLectura(productoActualLect, 'elaboracion')
                 conjuntoProductos.insertarProductoXML(nombreProducto, elaboracion)
+                # Crear la cola de elaboración
+                cola_elaboracion = ColaElaboracion()
+                pasos_elaboracion = elaboracion.split()
+                for paso in pasos_elaboracion:
+                    linea, componente = paso.split('C')
+                    linea = int(linea[1:])  # Remover 'L' y convertir a entero
+                    componente = int(componente)
+                    cola_elaboracion.encolar(linea, componente)
+                # Verificar la cola de elaboración
+                print(f"Cola de elaboración para {nombreProducto}:")
+                nodo_actual = cola_elaboracion.frente
+                while nodo_actual:
+                    print(f"Línea: {nodo_actual.linea}, Componente: {nodo_actual.componente}")
+                    nodo_actual = nodo_actual.siguiente
 
             listaGlobalMaquinasLectura.InsertarMaquina(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos)
 
