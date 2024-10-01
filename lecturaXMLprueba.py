@@ -4,6 +4,8 @@ from Producto import Producto
 from ListasEnlazadas.listaProductosXML import listaProductosXML
 from ListasEnlazadas.listaMaquinasXML import listaMaquinasXML
 from ListasEnlazadas.pruebaCola import ColaElaboracion
+from ListasEnlazadas.listaLineaProduccion import ListaLineasProduccion
+
 
 
 
@@ -36,20 +38,42 @@ def lecturaXMLActual(xmlString):
                 nombreProducto = obtenerContextoActualLectura(productoActualLect, 'nombre')
                 elaboracion = obtenerContextoActualLectura(productoActualLect, 'elaboracion')
                 conjuntoProductos.insertarProductoXML(nombreProducto, elaboracion)
+                
                 # Crear la cola de elaboración
                 cola_elaboracion = ColaElaboracion()
                 pasos_elaboracion = elaboracion.split()
                 for paso in pasos_elaboracion:
-                    linea, componente = paso.split('C')
-                    linea = int(linea[1:])  # Remover 'L' y convertir a entero
-                    componente = int(componente)
-                    cola_elaboracion.encolar(linea, componente)
-                # Verificar la cola de elaboración
-                print(f"Cola de elaboración para {nombreProducto}:")
+                    cola_elaboracion.encolar(paso)  # Encolar L#C# como una sola cadena
+
+
+                # Crear la lista de listas para las líneas de producción y componentes
+                lista_lineas_produccion = ListaLineasProduccion()
                 nodo_actual = cola_elaboracion.frente
                 while nodo_actual:
-                    print(f"Línea: {nodo_actual.linea}, Componente: {nodo_actual.componente}")
+                    linea, componente = nodo_actual.paso.split('C')
+                    linea = int(linea[1:])  # Remover 'L' y convertir a entero
+                    componente = int(componente)
+                    lista_lineas_produccion.insertarLinea(linea)
+                    lista_lineas_produccion.insertarComponente(linea, componente)
                     nodo_actual = nodo_actual.siguiente
+
+                # Verificar la lista de listas
+                print(f"Lista de listas para {nombreProducto}:")
+                actual_linea = lista_lineas_produccion.primerLinea
+                while actual_linea:
+                    print(f"Línea: {actual_linea.linea}")
+                    actual_componente = actual_linea.componentes
+                    while actual_componente:
+                        print(f"  Componente: {actual_componente.componente}")
+                        actual_componente = actual_componente.siguiente
+                    actual_linea = actual_linea.siguiente
+
+                # # Verificar la cola de elaboración
+                # print(f"Cola de elaboración para {nombreProducto}:")
+                # nodo_actual = cola_elaboracion.frente
+                # while nodo_actual:
+                #     print(f"Paso: {nodo_actual.paso}")
+                #     nodo_actual = nodo_actual.siguiente
 
             listaGlobalMaquinasLectura.InsertarMaquina(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos)
 

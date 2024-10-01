@@ -1,6 +1,4 @@
-from ListasEnlazadas.ListaEnlazadaCircular import listaEnlazadaCircular # Importar listaCiruclar
 from ListasEnlazadas.ListaEnlazadaDoble import ListaEnlazadaDoble # Importar Lista doble enlazada
-from ListasEnlazadas.ListaEnlazadaSimple import ListaEnlazadaSimple # Importar lista simple enlazada
 from flask import Flask, render_template, request, url_for, redirect, flash, jsonify
 from xml.dom import minidom
 import os
@@ -11,6 +9,18 @@ from ListasEnlazadas.listaProductosXML import listaProductosXML
 from ListasEnlazadas.listaMaquinasXML import listaMaquinasXML
 from lecturaXMLprueba import obtenerContextoActualLectura, lecturaXMLActual
 import lecturaXMLprueba
+def Menu():
+    print('--------------- Menu Principal ---------------')
+    print('1. Cargar archivo XML')
+    print('2. Procesar archivo')
+    print('3. Escribir archivo de salida XML')
+    print('4. Mostrar datos del estudiante')
+    print('5. Generar gráfica')
+    print('6. Salir')
+    print(' ----------------------------------------------')
+
+    slc= int(input('Elija una opción: '))
+    return slc
 
 app = Flask(__name__)
 app.secret_key = 'pruebaClaveSuperSegura'
@@ -95,7 +105,14 @@ def listar():
 
 if __name__ == '__main__':
     slc = 0
-    listaCircular = listaEnlazadaCircular()
     listaDoble = ListaEnlazadaDoble()
-    listaSimple = ListaEnlazadaSimple()
+
+    
     app.run(debug=True) 
+
+    
+
+
+    
+
+    

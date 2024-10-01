@@ -5,8 +5,8 @@ class ColaElaboracion:
         self.frente = None
         self.final = None
 
-    def encolar(self, linea, componente):
-        nuevo_nodo = NodoElaboracion(linea, componente)
+    def encolar(self, paso):
+        nuevo_nodo = NodoElaboracion(paso)
         if not self.frente:
             self.frente = self.final = nuevo_nodo
         else:
