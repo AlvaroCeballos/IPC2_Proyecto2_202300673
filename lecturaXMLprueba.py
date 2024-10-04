@@ -54,7 +54,7 @@ def lecturaXMLActual(xmlString):
                     linea = int(linea[1:])  # Remover 'L' y convertir a entero
                     componente = int(componente)
                     lista_lineas_produccion.insertarLinea(linea)
-                    lista_lineas_produccion.insertarComponente(linea, componente)
+                    lista_lineas_produccion.insertarComponente(linea, componente, cantidadComponentes)
                     nodo_actual = nodo_actual.siguiente
 
                 # Verificar la lista de listas
@@ -64,7 +64,8 @@ def lecturaXMLActual(xmlString):
                     print(f"Línea: {actual_linea.linea}")
                     actual_componente = actual_linea.componentes
                     while actual_componente:
-                        print(f"  Componente: {actual_componente.componente}")
+                        ensamblar_str = " (ensamblar)" if actual_componente.ensamblar else ""
+                        print(f"  Componente: {actual_componente.componente}{ensamblar_str}")
                         actual_componente = actual_componente.siguiente
                     actual_linea = actual_linea.siguiente
 
