@@ -1,4 +1,3 @@
-from .nodoCompontente import NodoComponente
 
 class NodoLineaProduccion:
     def __init__(self, linea):

@@ -57,18 +57,26 @@ def lecturaXMLActual(xmlString):
                     lista_lineas_produccion.insertarComponente(linea, componente, cantidadComponentes)
                     nodo_actual = nodo_actual.siguiente
 
-                # Verificar la lista de listas
-                print(f"Lista de listas para {nombreProducto}:")
-                actual_linea = lista_lineas_produccion.primerLinea
-                while actual_linea:
-                    print(f"Línea: {actual_linea.linea}")
-                    actual_componente = actual_linea.componentes
-                    while actual_componente:
-                        ensamblar_str = " (ensamblar)" if actual_componente.ensamblar else ""
-                        print(f"  Componente: {actual_componente.componente}{ensamblar_str}")
-                        actual_componente = actual_componente.siguiente
-                    actual_linea = actual_linea.siguiente
-
+                # Simulación del tiempo actual
+                segundoActual = 0
+                while not lista_lineas_produccion.todasListasRecorridas():
+                    segundoActual += 1
+                    lista_lineas_produccion.avanzarSegundo(segundoActual)
+                    
+                    # Verificar la lista de listas
+                    print(f"Segundo {segundoActual}:")
+                    actual_linea = lista_lineas_produccion.primerLinea
+                    while actual_linea:
+                        print(f"Línea {actual_linea.linea}:")
+                        actual_componente = actual_linea.componentes
+                        contador = 1
+                        while actual_componente:
+                            if actual_componente.segundoActual == segundoActual:
+                                print(f"  Componente {actual_componente.componente}")
+                                break
+                            actual_componente = actual_componente.siguiente
+                            contador += 1
+                        actual_linea = actual_linea.siguiente
                 # # Verificar la cola de elaboración
                 # print(f"Cola de elaboración para {nombreProducto}:")
                 # nodo_actual = cola_elaboracion.frente

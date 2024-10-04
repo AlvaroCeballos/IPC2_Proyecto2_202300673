@@ -47,4 +47,27 @@ class ListaLineasProduccion:
                 if actual_componente.componente == componente:
                     actual_componente.ensamblar = True
                 actual_componente = actual_componente.siguiente
+
+    def avanzarSegundo(self, segundo):
+        actual_linea = self.primerLinea
+        while actual_linea:
+            actual_componente = actual_linea.componentes
+            contador = 1
+            while actual_componente:
+                if contador == segundo:
+                    actual_componente.segundoActual = segundo
+                actual_componente = actual_componente.siguiente
+                contador += 1
+            actual_linea = actual_linea.siguiente
+
+    def todasListasRecorridas(self):
+        actual_linea = self.primerLinea
+        while actual_linea:
+            actual_componente = actual_linea.componentes
+            while actual_componente:
+                if actual_componente.segundoActual == 0:
+                    return False
+                actual_componente = actual_componente.siguiente
+            actual_linea = actual_linea.siguiente
+        return True
                 
