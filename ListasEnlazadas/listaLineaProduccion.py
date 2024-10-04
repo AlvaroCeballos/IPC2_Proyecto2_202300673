@@ -6,6 +6,14 @@ class ListaLineasProduccion:
         self.primerLinea = None
 
     def insertarLinea(self, linea):
+        # Verificar si la línea ya existe
+        actual_linea = self.primerLinea
+        while actual_linea:
+            if actual_linea.linea == linea:
+                return  # La línea ya existe, no hacer nada
+            actual_linea = actual_linea.siguiente
+
+        # Si la línea no existe, crear una nueva
         nueva_linea = NodoLineaProduccion(linea)
         if not self.primerLinea:
             self.primerLinea = nueva_linea
@@ -21,7 +29,6 @@ class ListaLineasProduccion:
             actual_linea = actual_linea.siguiente
         if actual_linea:
             nuevo_componente = NodoComponente(componente)
-            nuevo_componente.linea_produccion = actual_linea
             if not actual_linea.componentes:
                 actual_linea.componentes = nuevo_componente
             else:
@@ -30,3 +37,4 @@ class ListaLineasProduccion:
                     actual_componente = actual_componente.siguiente
                 actual_componente.siguiente = nuevo_componente
                 nuevo_componente.anterior = actual_componente
+                
