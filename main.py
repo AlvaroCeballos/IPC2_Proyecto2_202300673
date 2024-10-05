@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, url_for, redirect, flash, jsonify
+from flask import Flask, render_template, request, url_for, redirect, flash, send_file
 from ListasEnlazadas.ListaEnlazadaDoble import ListaEnlazadaDoble
 from ListasEnlazadas.listaProductosXML import listaProductosXML
 from ListasEnlazadas.listaMaquinasXML import listaMaquinasXML
 from ListasEnlazadas.pruebaCola import ColaElaboracion
 from ListasEnlazadas.listaLineaProduccion import ListaLineasProduccion
 from xml.dom import minidom
+import graphviz
 
 app = Flask(__name__)
 app.secret_key = 'pruebaClaveSuperSegura'
@@ -52,6 +53,24 @@ def buscarProducto():
             tabla_html = ""
         return render_template('archivosSalida.html', tabla_html=tabla_html)
     return render_template('archivosSalida.html', tabla_html="")
+
+@app.route('/generarCola', methods=['POST'])
+def generarCola():
+    nombreProducto = request.form['nombreProducto']
+    producto = buscarProductoEnMaquinas(nombreProducto)
+    if producto:
+        dot = graphviz.Digraph(comment='Cola de Elaboración')
+        nodo_actual = producto.cola_elaboracion.frente
+        while nodo_actual:
+            dot.node(str(nodo_actual), nodo_actual.paso)
+            if nodo_actual.siguiente:
+                dot.edge(str(nodo_actual), str(nodo_actual.siguiente))
+            nodo_actual = nodo_actual.siguiente
+        dot.render('cola_elaboracion.gv', view=False)
+        return send_file('cola_elaboracion.gv.pdf', as_attachment=True)
+    else:
+        flash("Producto no encontrado", "error")
+        return redirect(url_for('buscarProducto'))
 
 @app.route('/borrarDatos', methods=['POST'])
 def borrarDatos():
@@ -139,6 +158,7 @@ def lecturaXMLActual(xmlString):
                 while producto_nodo:
                     if producto_nodo.nombreProducto == nombreProducto:
                         producto_nodo.tabla_html = tabla_html
+                        producto_nodo.cola_elaboracion = cola_elaboracion  # Asignar la cola de elaboración
                         break
                     producto_nodo = producto_nodo.siguienteProducto
 

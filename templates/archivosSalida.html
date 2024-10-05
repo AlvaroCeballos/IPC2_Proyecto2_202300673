@@ -25,6 +25,12 @@
               <button type="submit">Buscar</button>
           </form>
           {{ tabla_html|safe }}
+          {% if tabla_html %}
+          <form action="{{ url_for('generarCola') }}" method="post">
+              <input type="hidden" name="nombreProducto" value="{{ request.form['nombreProducto'] }}">
+              <button type="submit">Generar cola</button>
+          </form>
+          {% endif %}
       </div>
   </div>
   {% endblock %}
