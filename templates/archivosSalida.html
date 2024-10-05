@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Archivo de entrada</title>
+  <title>Producción</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     body {
@@ -18,52 +18,39 @@
   {% extends 'navBar.html' %}
   {% block contenido %}
   <div class="container mx-auto h-screen flex justify-center items-center">
-    <div class="max-w-lg rounded-lg overflow-hidden shadow-2xl bg-white p-10 border border-gray-300">
+    <div class="w-full rounded overflow-hidden shadow-lg bg-white mx-5">
+        <table class="w-full table-auto">
+            <thead>
+                <tr>
+                    <th>Tiempo</th>
 
-      {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <div class="mb-4">
-          {% for category, message in messages %}
-            <div class="px-4 py-3 rounded relative {{ 'bg-green-100 text-green-700' if category == 'success' else 'bg-red-100 text-red-700' }} mb-4">
-              <span class="block sm:inline">{{ message }}</span>
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-      {% endwith %}
-
-      <form class="bg-white rounded-lg px-12 pt-8 pb-8" action="/archivosSalida" method="POST" enctype="multipart/form-data">
-        <div class="mb-8 text-center">
-          <h1 class="text-4xl font-extrabold text-gray-800 mb-4">
-           Archivos de salida
-          </h1>
-          <p class="text-lg text-gray-700 mb-6">
-            Abajo deberás seleccionar un archivo XML con los datos de las máquinas.
-          </p>
-        </div>
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="xmlFile">
-            Archivo XML a subir:
-          </label>
-          <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="xmlFile"
-            name="xmlFile"
-            type="file"
-            accept=".xml"
-          />
-        </div>
-        <div class="flex justify-center">
-          <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            Subir
-          </button>
-        </div>
-      </form>
+                </tr>
+            </thead>
+            <tbody>
+                {% for segundo in range(1, tiempo_total + 1) %}
+                    <tr>
+                        <td>{{ segundo }}s</td>
+                        {% for linea in listado.primerMaquina.lineas %}
+                            <td>
+                                {% set componente = linea.componentes %}
+                                {% while componente and componente.segundoActual == segundo %}
+                                    {{ componente.componente }} 
+                                    {% if componente.ensamblar %}
+                                        (Ensamblar)
+                                    {% endif %}
+                                    {% set componente = componente.siguiente %}
+                                {% endwhile %}
+                                {% if not componente %}
+                                    No hace nada
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-  </div>
-  {% endblock %}
+</div>
+{% endblock %}
 </body>
 </html>

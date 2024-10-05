@@ -1,12 +1,10 @@
 from xml.dom import minidom
-from Maquina import Maquina
-from Producto import Producto
 from ListasEnlazadas.listaProductosXML import listaProductosXML
 from ListasEnlazadas.listaMaquinasXML import listaMaquinasXML
 from ListasEnlazadas.pruebaCola import ColaElaboracion
 from ListasEnlazadas.listaLineaProduccion import ListaLineasProduccion
 
-
+listaGlobalMaquinasLectura = listaMaquinasXML()
 
 
 def obtenerContextoActualLectura(elementoActualLectura, tagActualLectura):
@@ -34,6 +32,8 @@ def lecturaXMLActual(xmlString):
             productosActualesMaquinaLectura = maquinaActualLexturaXML.getElementsByTagName('Producto')
             conjuntoProductos = listaProductosXML()
 
+            
+
             for productoActualLect in productosActualesMaquinaLectura:
                 nombreProducto = obtenerContextoActualLectura(productoActualLect, 'nombre')
                 elaboracion = obtenerContextoActualLectura(productoActualLect, 'elaboracion')
@@ -47,6 +47,7 @@ def lecturaXMLActual(xmlString):
 
 
                 # Crear la lista de listas para las líneas de producción y componentes
+                segundoActual = 0
                 lista_lineas_produccion = ListaLineasProduccion()
                 nodo_actual = cola_elaboracion.frente
                 while nodo_actual:
@@ -54,12 +55,12 @@ def lecturaXMLActual(xmlString):
                     linea = int(linea[1:])  # Remover 'L' y convertir a entero
                     componente = int(componente)
                     lista_lineas_produccion.insertarLinea(linea)
-                    lista_lineas_produccion.insertarComponente(linea, componente, cantidadComponentes)
+                    lista_lineas_produccion.insertarComponente(linea, componente, cantidadComponentes, segundoActual)
                     nodo_actual = nodo_actual.siguiente
 
                 print(f"Producto a ensamblar: {nombreProducto}")
 
-                segundoActual = 0
+                
                 while not lista_lineas_produccion.todasListasRecorridas():
                     segundoActual += 1
                     lista_lineas_produccion.avanzarSegundo(segundoActual)
@@ -87,23 +88,23 @@ def lecturaXMLActual(xmlString):
                 #     print(f"Paso: {nodo_actual.paso}")
                 #     nodo_actual = nodo_actual.siguiente
 
-            listaGlobalMaquinasLectura.InsertarMaquina(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos)
+            listaGlobalMaquinasLectura.InsertarMaquina(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos, cola_elaboracion, lista_lineas_produccion)
 
-        # actualMaquina = listaGlobalMaquinasLectura.primerMaquina
-        # while actualMaquina:
-        #     print(f"Nombre maquina actual: {actualMaquina.nombreM}")
-        #     print(f"Total actual de lineas de produccion: {actualMaquina.cantidadLineas}")
-        #     print(f"Componentes actuales: {actualMaquina.cantidadComponentes}")
-        #     print(f"Tiempo en ensamblar una pieza: {actualMaquina.tiempoEnsamblajeA} segundos")
-        #     print("Lista productos maquina actual:")
-        #     actualProducto = actualMaquina.conjuntoProductos.primerProducto
-        #     while actualProducto:
-        #         print(f"Nombre actual de producto: {actualProducto.nombreProducto}")
-        #         print(" Elaboracion proceso:")
-        #         for paso in actualProducto.elaboracion.split():
-        #             print(f"  - {paso}")
-        #         actualProducto = actualProducto.siguienteProducto
-        #     actualMaquina = actualMaquina.siguienteMaquina
+        actualMaquina = listaGlobalMaquinasLectura.primerMaquina
+        while actualMaquina:
+            print(f"Nombre maquina actual: {actualMaquina.nombreM}")
+            print(f"Total actual de lineas de produccion: {actualMaquina.cantidadLineas}")
+            print(f"Componentes actuales: {actualMaquina.cantidadComponentes}")
+            print(f"Tiempo en ensamblar una pieza: {actualMaquina.tiempoEnsamblajeA} segundos")
+            print("Lista productos maquina actual:")
+            actualProducto = actualMaquina.conjuntoProductos.primerProducto
+            while actualProducto:
+                print(f"Nombre actual de producto: {actualProducto.nombreProducto}")
+                print(" Elaboracion proceso:")
+                for paso in actualProducto.elaboracion.split():
+                    print(f"  - {paso}")
+                actualProducto = actualProducto.siguienteProducto
+            actualMaquina = actualMaquina.siguienteMaquina
 
     except Exception as errorActualLectura:
         print(f"Error de lectura XML: {errorActualLectura}")

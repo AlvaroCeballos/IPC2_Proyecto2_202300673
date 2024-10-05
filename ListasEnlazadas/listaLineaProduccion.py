@@ -23,7 +23,7 @@ class ListaLineasProduccion:
                 actual_linea = actual_linea.siguiente
             actual_linea.siguiente = nueva_linea
 
-    def insertarComponente(self, linea, componente, total_componentes):
+    def insertarComponente(self, linea, componente, total_componentes, segundoActual):
         actual_linea = self.primerLinea
         while actual_linea and actual_linea.linea != linea:
             actual_linea = actual_linea.siguiente
@@ -41,11 +41,12 @@ class ListaLineasProduccion:
                         actual_componente.siguiente = nuevo_componente
                         nuevo_componente.anterior = actual_componente
 
-            # Marcar el componente que debe ser ensamblado
+            # Marcar el componente que debe ser ensamblado y asignar segundoActual
             actual_componente = actual_linea.componentes
             while actual_componente:
                 if actual_componente.componente == componente:
                     actual_componente.ensamblar = True
+                    actual_componente.segundoActual = segundoActual
                 actual_componente = actual_componente.siguiente
 
     def avanzarSegundo(self, segundo):

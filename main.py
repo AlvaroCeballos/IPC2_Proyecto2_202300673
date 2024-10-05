@@ -1,26 +1,11 @@
 from ListasEnlazadas.ListaEnlazadaDoble import ListaEnlazadaDoble # Importar Lista doble enlazada
 from flask import Flask, render_template, request, url_for, redirect, flash, jsonify
-from xml.dom import minidom
-import os
-from xml.dom import minidom
-from Maquina import Maquina
-from Producto import Producto
 from ListasEnlazadas.listaProductosXML import listaProductosXML
 from ListasEnlazadas.listaMaquinasXML import listaMaquinasXML
-from lecturaXMLprueba import obtenerContextoActualLectura, lecturaXMLActual
+from ListasEnlazadas.pruebaCola import ColaElaboracion
+from ListasEnlazadas.listaLineaProduccion import ListaLineasProduccion
+from lecturaXMLprueba import obtenerContextoActualLectura, lecturaXMLActual, listaGlobalMaquinasLectura
 import lecturaXMLprueba
-def Menu():
-    print('--------------- Menu Principal ---------------')
-    print('1. Cargar archivo XML')
-    print('2. Procesar archivo')
-    print('3. Escribir archivo de salida XML')
-    print('4. Mostrar datos del estudiante')
-    print('5. Generar gráfica')
-    print('6. Salir')
-    print(' ----------------------------------------------')
-
-    slc= int(input('Elija una opción: '))
-    return slc
 
 app = Flask(__name__)
 app.secret_key = 'pruebaClaveSuperSegura'
@@ -61,37 +46,8 @@ def lecturaXML():
         return redirect("LeerXML")
 #---------------------------------------------------------------------------------
 @app.route('/salidaArchivosht')
-def salida():
-    return render_template('archivosSalida.html')
-
-@app.route('/archivosSalida', methods=['POST'])
-def archivosSalida():
-    try:
-
-        if 'xmlFile' not in request.files:
-            flash("No se encontró el archivo XML", "error")
-            return redirect("salidaArchivosht")
-        
-        file = request.files['xmlFile']
-        
-        if file.filename == '':
-            flash("Por favor seleccionar un archivo XML", "error")
-            return redirect("salidaArchivosht")
-        
-        if file and file.filename.endswith('.xml'):
-            xmlString = file.read().decode('utf-8')
-            
-
-            lecturaXMLActual(xmlString)
-            
-            flash("Archivo XML leido correctamente", "success")
-            return redirect("salidaArchivosht")
-        else:
-            flash("Por favor elegir un archivo tipo XML", "error")
-            return redirect("salidaArchivosht")
-    except Exception as e:
-        flash(f"Error al procesar el archivo XML: {str(e)}", "error")
-        return redirect("salidaArchivosht")
+def listarTabla():
+    return render_template('archivosSalida.html', listado=listaGlobalMaquinasLectura)
 #---------------------------------------------------------------------------------
 
 @app.route('/borrarDatos', methods=['POST'])
