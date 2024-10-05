@@ -1,0 +1,23 @@
+digraph Maquinas {
+	node [shape=plaintext]
+	table [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+            <TR>
+                <TD>Nombre Maquina</TD>
+                <TD>Cantidad Lineas</TD>
+                <TD>Cantidad Componentes</TD>
+                <TD>Tiempo Ensamblaje</TD>
+                <TD>Productos</TD>
+            </TR><TR>
+                <TD>M01PC2</TD>
+                <TD>3</TD>
+                <TD>8</TD>
+                <TD>2</TD>
+                <TD>Audífonos Bluetooth (L2C3    L3C2        L1C2 L1C4   L2C7            L3C8)<BR/>Mouse Inalámbrico (L2C1    L3C3        L1C3 L1C4   L2C6            L3C6)<BR/></TD>
+            </TR><TR>
+                <TD>Super Máquina 3000</TD>
+                <TD>5</TD>
+                <TD>10</TD>
+                <TD>5</TD>
+                <TD>Audífonos Bluetooth (L2C3    L3C2        L1C2 L1C4)<BR/>Mouse Inalámbrico (L2C1    L3C3)<BR/></TD>
+            </TR></TABLE>>]
+}

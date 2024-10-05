@@ -20,36 +20,38 @@
   <div class="container mx-auto h-screen flex justify-center items-center">
     <div class="w-full rounded overflow-hidden shadow-lg bg-white mx-5">
         <table class="w-full table-auto">
-            <thead>
-                <tr>
-                    <th>Tiempo</th>
-
-                </tr>
-            </thead>
-            <tbody>
-                {% for segundo in range(1, tiempo_total + 1) %}
-                    <tr>
-                        <td>{{ segundo }}s</td>
-                        {% for linea in listado.primerMaquina.lineas %}
-                            <td>
-                                {% set componente = linea.componentes %}
-                                {% while componente and componente.segundoActual == segundo %}
-                                    {{ componente.componente }} 
-                                    {% if componente.ensamblar %}
-                                        (Ensamblar)
-                                    {% endif %}
-                                    {% set componente = componente.siguiente %}
-                                {% endwhile %}
-                                {% if not componente %}
-                                    No hace nada
-                                {% endif %}
-                            </td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+          <thead>
+            <tr>
+              <th>Tiempo</th>
+              {% for linea in listado.primerMaquina.lineas %}
+                  <th>Línea {{ linea.linea }}</th>
+              {% endfor %}
+          </tr>
+      </thead>
+      <tbody>
+          {% for linea in listado.primerMaquina.lineas %}
+              {% set componente = linea.componentes %}
+              {% for comp in componente %}
+                  <tr>
+                      <td>{{ comp.segundoActual }}s</td>
+                      {% for linea in listado.primerMaquina.lineas %}
+                          <td>
+                              {% if comp.segundoActual == comp.segundoActual %}
+                                  {{ comp.componente }} 
+                                  {% if comp.ensamblar %}
+                                      (Ensamblar)
+                                  {% endif %}
+                              {% else %}
+                                  No hace nada
+                              {% endif %}
+                          </td>
+                      {% endfor %}
+                  </tr>
+              {% endfor %}
+          {% endfor %}
+      </tbody>
+  </table>
+</div>
 </div>
 {% endblock %}
 </body>
