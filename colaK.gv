@@ -1,12 +1,14 @@
 // Cola
 digraph {
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002109F050AD0> [label=L1C2]
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002109F050AD0> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002109F050B00>
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002109F050B00> [label=L4C1]
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002109F050B00> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002109F050B30>
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002109F050B30> [label=L3C3]
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002109F050B30> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002109F050B60>
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002109F050B60> [label=L5C0]
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002109F050B60> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002109F050B90>
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002109F050B90> [label=L2C2]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F1AA50> [label=L2C3]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F1AA50> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F198E0>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F198E0> [label=L3C2]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F198E0> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F199D0>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F199D0> [label=L1C2]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F199D0> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F198B0>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F198B0> [label=L1C4]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F198B0> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F19C70>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F19C70> [label=L2C7]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025733F19C70> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025732E5A2A0>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000025732E5A2A0> [label=L3C8]
 }

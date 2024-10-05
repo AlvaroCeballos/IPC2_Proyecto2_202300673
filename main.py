@@ -279,21 +279,21 @@ def generarXMLProductos():
 
     actualMaquina = listaGlobalMaquinasLectura.primerMaquina
     while actualMaquina:
-        print(f"Procesando máquina: {actualMaquina.nombreM}")  # Debugging line
+        print(f"Procesando máquina: {actualMaquina.nombreM}")  
         actualProducto = actualMaquina.conjuntoProductos.primerProducto
         while actualProducto:
-            print(f"Procesando producto: {actualProducto.nombreProducto}")  # Debugging line
+            print(f"Procesando producto: {actualProducto.nombreProducto}") 
             producto_element = doc.createElement('Producto')
             
-            nombre_element = doc.createElement('Nombre')
-            nombre_text = doc.createTextNode(actualProducto.nombreProducto)
-            nombre_element.appendChild(nombre_text)
-            producto_element.appendChild(nombre_element)
+            nombreSalida = doc.createElement('Nombre')
+            nombretxt = doc.createTextNode(actualProducto.nombreProducto)
+            nombreSalida.appendChild(nombretxt)
+            producto_element.appendChild(nombreSalida)
             
-            elaboracion_element = doc.createElement('Elaboracion')
-            elaboracion_text = doc.createTextNode(actualProducto.elaboracion)
-            elaboracion_element.appendChild(elaboracion_text)
-            producto_element.appendChild(elaboracion_element)
+            elaboracionSalida = doc.createElement('Elaboracion')
+            elaboraciontxt = doc.createTextNode(actualProducto.elaboracion)
+            elaboracionSalida.appendChild(elaboraciontxt)
+            producto_element.appendChild(elaboracionSalida)
             
             root.appendChild(producto_element)
             actualProducto = actualProducto.siguienteProducto
