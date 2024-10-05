@@ -199,12 +199,12 @@ def buscarProductoEnMaquinas(nombreProducto):
     return None
 
 def generarTablaHTML(lista_lineas_produccion):
-    tabla = "<table class='w-full table-auto'>"
-    tabla += "<thead><tr><th>Tiempo</th>"
+    tabla = "<table class='min-w-full bg-white'>"
+    tabla += "<thead><tr><th class='py-2'>Tiempo</th>"
     
     actualLinea = lista_lineas_produccion.primerLinea
     while actualLinea:
-        tabla += f"<th>Línea {actualLinea.linea}</th>"
+        tabla += f"<th class='py-2'>Línea {actualLinea.linea}</th>"
         actualLinea = actualLinea.siguiente
     tabla += "</tr></thead><tbody>"
 
@@ -219,14 +219,14 @@ def generarTablaHTML(lista_lineas_produccion):
         actualLinea = actualLinea.siguiente
 
     for segundo in range(1, max_segundo + 1):
-        tabla += f"<tr><td>{segundo}s</td>"
+        tabla += f"<tr class='bg-gray-100'><td class='border px-4 py-2'>{segundo}s</td>"
         actualLinea = lista_lineas_produccion.primerLinea
         while actualLinea:
             componente = actualLinea.componentes
             encontrado = False
             while componente:
                 if componente.segundoActual == segundo:
-                    tabla += f"<td>{componente.componente}"
+                    tabla += f"<td class='border px-4 py-2'>{componente.componente}"
                     if componente.ensamblar:
                         tabla += " (Ensamblar)"
                     tabla += "</td>"
@@ -234,7 +234,7 @@ def generarTablaHTML(lista_lineas_produccion):
                     break
                 componente = componente.siguiente
             if not encontrado:
-                tabla += "<td>No hace nada</td>"
+                tabla += "<td class='border px-4 py-2'>No hace nada</td>"
             actualLinea = actualLinea.siguiente
         tabla += "</tr>"
     tabla += "</tbody></table>"
