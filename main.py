@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, flash, send_file
+from flask import Flask, render_template, request, url_for, redirect, flash, send_file, Response
 from ListasEnlazadas.ListaEnlazadaDoble import ListaEnlazadaDoble
 from ListasEnlazadas.listaProductosXML import listaProductosXML
 from ListasEnlazadas.listaMaquinasXML import listaMaquinasXML
@@ -6,6 +6,7 @@ from ListasEnlazadas.pruebaCola import ColaElaboracion
 from ListasEnlazadas.listaLineaProduccion import ListaLineasProduccion
 from xml.dom import minidom
 import graphviz
+import os
 
 app = Flask(__name__)
 app.secret_key = 'claveSeguraIPC2$$$$$'
@@ -71,6 +72,45 @@ def generarCola():
     else:
         flash("Ingrese correctamente el nombre del producto", "error")
         return redirect(url_for('buscarProducto'))
+
+@app.route('/exportarHTML', methods=['POST'])
+def exportarHTML():
+    nombreProducto = request.form['nombreProducto']
+    producto = buscarProductoEnMaquinas(nombreProducto)
+    if producto:
+        html_content = f"""
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Exportación de Tabla</title>
+            <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        </head>
+        <body>
+            <div class="container mx-auto p-4">
+                <h1 class="text-2xl font-bold mb-4">Tabla de {nombreProducto}</h1>
+                {producto.tablaC}
+            </div>
+        </body>
+        </html>
+        """
+        file_path = f"{nombreProducto}_tabla.html"
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(html_content)
+        return send_file(file_path, as_attachment=True)
+    else:
+        flash("Ingrese correctamente el nombre del producto", "error")
+        return redirect(url_for('buscarProducto'))
+
+@app.route('/exportarXML', methods=['GET'])
+def exportarXML():
+    try:
+        xml_content = generarXMLProductos()
+        return Response(xml_content, mimetype='application/xml', headers={"Content-Disposition": "attachment;filename=productos.xml"})
+    except Exception as e:
+        flash(f"Error al exportar el archivo XML: {e}", "error")
+        return redirect(url_for('listar'))
 
 @app.route('/borrarDatos', methods=['POST'])
 def borrarDatos():
@@ -231,6 +271,35 @@ def tablaComponentes(lineasProduccion):
         tabla += "</tr>"
     tabla += "</tbody></table>"
     return tabla
+
+def generarXMLProductos():
+    doc = minidom.Document()
+    root = doc.createElement('Productos')
+    doc.appendChild(root)
+
+    actualMaquina = listaGlobalMaquinasLectura.primerMaquina
+    while actualMaquina:
+        print(f"Procesando máquina: {actualMaquina.nombreM}")  # Debugging line
+        actualProducto = actualMaquina.conjuntoProductos.primerProducto
+        while actualProducto:
+            print(f"Procesando producto: {actualProducto.nombreProducto}")  # Debugging line
+            producto_element = doc.createElement('Producto')
+            
+            nombre_element = doc.createElement('Nombre')
+            nombre_text = doc.createTextNode(actualProducto.nombreProducto)
+            nombre_element.appendChild(nombre_text)
+            producto_element.appendChild(nombre_element)
+            
+            elaboracion_element = doc.createElement('Elaboracion')
+            elaboracion_text = doc.createTextNode(actualProducto.elaboracion)
+            elaboracion_element.appendChild(elaboracion_text)
+            producto_element.appendChild(elaboracion_element)
+            
+            root.appendChild(producto_element)
+            actualProducto = actualProducto.siguienteProducto
+        actualMaquina = actualMaquina.siguienteMaquina
+
+    return doc.toprettyxml(indent="  ")
 
 if __name__ == '__main__':
     slc = 0

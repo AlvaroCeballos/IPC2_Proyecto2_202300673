@@ -16,23 +16,30 @@
 </head>
 <body>
   {% extends 'navBar.html' %}
-{% block contenido %}
-<div class="container mx-auto h-screen flex justify-center items-center">
-    <div class="w-full rounded overflow-hidden shadow-lg bg-white mx-5 p-5">
-        <form action="{{ url_for('buscarProducto') }}" method="post" class="mb-4">
-            <label for="nombreProducto" class="block text-gray-700 text-sm font-bold mb-2">Nombre del Producto:</label>
-            <input type="text" id="nombreProducto" name="nombreProducto" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Buscar</button>
-        </form>
-        {{ tablaC|safe }}
-        {% if tablaC %}
-        <form action="{{ url_for('generarCola') }}" method="post" class="mt-4">
-            <input type="hidden" name="nombreProducto" value="{{ request.form['nombreProducto'] }}">
-            <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Generar cola</button>
-        </form>
-        {% endif %}
-    </div>
-</div>
-{% endblock %}
+  {% block contenido %}
+  <div class="container mx-auto h-screen flex justify-center items-center">
+      <div class="w-full rounded overflow-hidden shadow-lg bg-white mx-5 p-5">
+          <form action="{{ url_for('buscarProducto') }}" method="post" class="mb-4">
+              <label for="nombreProducto" class="block text-gray-700 text-sm font-bold mb-2">Nombre del Producto:</label>
+              <input type="text" id="nombreProducto" name="nombreProducto" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Buscar</button>
+          </form>
+          {{ tablaC|safe }}
+          {% if tablaC %}
+          <form action="{{ url_for('generarCola') }}" method="post" class="mt-4">
+              <input type="hidden" name="nombreProducto" value="{{ request.form['nombreProducto'] }}">
+              <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Generar cola</button>
+          </form>
+          <form action="{{ url_for('exportarHTML') }}" method="post" class="mt-4">
+              <input type="hidden" name="nombreProducto" value="{{ request.form['nombreProducto'] }}">
+              <button type="submit" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">Exportar HTML</button>
+          </form>
+          {% endif %}
+          <form action="{{ url_for('exportarXML') }}" method="get" class="mt-4">
+              <button type="submit" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">Exportar XML</button>
+          </form>
+      </div>
+  </div>
+  {% endblock %}
 </body>
 </html>
