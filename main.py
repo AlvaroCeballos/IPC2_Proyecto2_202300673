@@ -137,19 +137,19 @@ def lecturaXMLActual(xmlString):
                     
                     # Verificar la lista de listas
                     print(f"Segundo {segundoActual}:")
-                    actual_linea = lista_lineas_produccion.primerLinea
-                    while actual_linea:
-                        print(f"Línea {actual_linea.linea}:")
-                        actual_componente = actual_linea.componentes
+                    actualLinea = lista_lineas_produccion.primerLinea
+                    while actualLinea:
+                        print(f"Línea {actualLinea.linea}:")
+                        componenteActual = actualLinea.componentes
                         contador = 1
-                        while actual_componente:
-                            if actual_componente.segundoActual == segundoActual:
-                                ensamblar_str = " (ensamblar)" if actual_componente.ensamblar else ""
-                                print(f"  Componente: {actual_componente.componente}{ensamblar_str}")
+                        while componenteActual:
+                            if componenteActual.segundoActual == segundoActual:
+                                ensamblar_str = " (ensamblar)" if componenteActual.ensamblar else ""
+                                print(f"  Componente: {componenteActual.componente}{ensamblar_str}")
                                 break
-                            actual_componente = actual_componente.siguiente
+                            componenteActual = componenteActual.siguiente
                             contador += 1
-                        actual_linea = actual_linea.siguiente
+                        actualLinea = actualLinea.siguiente
 
                 # Generar la tabla HTML para el producto
                 tabla_html = generarTablaHTML(lista_lineas_produccion)

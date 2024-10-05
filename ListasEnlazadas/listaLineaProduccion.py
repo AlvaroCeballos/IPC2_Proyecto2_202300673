@@ -6,69 +6,66 @@ class ListaLineasProduccion:
         self.primerLinea = None
 
     def insertarLinea(self, linea):
-        # Verificar si la línea ya existe
-        actual_linea = self.primerLinea
-        while actual_linea:
-            if actual_linea.linea == linea:
-                return  # La línea ya existe, no hacer nada
-            actual_linea = actual_linea.siguiente
+        # Validacion de linea de produccion existente
+        actualLinea = self.primerLinea
+        while actualLinea:
+            if actualLinea.linea == linea:
+                return 
+            actualLinea = actualLinea.siguiente
 
-        # Si la línea no existe, crear una nueva
-        nueva_linea = NodoLineaProduccion(linea)
+        nuevaLinea = NodoLineaProduccion(linea)
         if not self.primerLinea:
-            self.primerLinea = nueva_linea
+            self.primerLinea = nuevaLinea
         else:
-            actual_linea = self.primerLinea
-            while actual_linea.siguiente:
-                actual_linea = actual_linea.siguiente
-            actual_linea.siguiente = nueva_linea
+            actualLinea = self.primerLinea
+            while actualLinea.siguiente:
+                actualLinea = actualLinea.siguiente
+            actualLinea.siguiente = nuevaLinea
 
-    def insertarComponente(self, linea, componente, total_componentes, segundoActual):
-        actual_linea = self.primerLinea
-        while actual_linea and actual_linea.linea != linea:
-            actual_linea = actual_linea.siguiente
-        if actual_linea:
-            # Crear todos los nodos necesarios solo si no existen
-            if not actual_linea.componentes:
-                for i in range(1, total_componentes + 1):
-                    nuevo_componente = NodoComponente(i)
-                    if not actual_linea.componentes:
-                        actual_linea.componentes = nuevo_componente
+    def insertarComponente(self, linea, componente, cantComponente, segundoActual):
+        actualLinea = self.primerLinea
+        while actualLinea and actualLinea.linea != linea:
+            actualLinea = actualLinea.siguiente
+        if actualLinea:
+            if not actualLinea.componentes:
+                for i in range(1, cantComponente + 1):
+                    nuevoComponente = NodoComponente(i)
+                    if not actualLinea.componentes:
+                        actualLinea.componentes = nuevoComponente
                     else:
-                        actual_componente = actual_linea.componentes
-                        while actual_componente.siguiente:
-                            actual_componente = actual_componente.siguiente
-                        actual_componente.siguiente = nuevo_componente
-                        nuevo_componente.anterior = actual_componente
+                        componenteActual = actualLinea.componentes
+                        while componenteActual.siguiente:
+                            componenteActual = componenteActual.siguiente
+                        componenteActual.siguiente = nuevoComponente
+                        nuevoComponente.anterior = componenteActual
 
-            # Marcar el componente que debe ser ensamblado y asignar segundoActual
-            actual_componente = actual_linea.componentes
-            while actual_componente:
-                if actual_componente.componente == componente:
-                    actual_componente.ensamblar = True
-                    actual_componente.segundoActual = segundoActual
-                actual_componente = actual_componente.siguiente
+            componenteActual = actualLinea.componentes
+            while componenteActual:
+                if componenteActual.componente == componente:
+                    componenteActual.ensamblar = True
+                    componenteActual.segundoActual = segundoActual
+                componenteActual = componenteActual.siguiente
 
     def avanzarSegundo(self, segundo):
-        actual_linea = self.primerLinea
-        while actual_linea:
-            actual_componente = actual_linea.componentes
+        actualLinea = self.primerLinea
+        while actualLinea:
+            componenteActual = actualLinea.componentes
             contador = 1
-            while actual_componente:
+            while componenteActual:
                 if contador == segundo:
-                    actual_componente.segundoActual = segundo
-                actual_componente = actual_componente.siguiente
+                    componenteActual.segundoActual = segundo
+                componenteActual = componenteActual.siguiente
                 contador += 1
-            actual_linea = actual_linea.siguiente
+            actualLinea = actualLinea.siguiente
 
     def todasListasRecorridas(self):
-        actual_linea = self.primerLinea
-        while actual_linea:
-            actual_componente = actual_linea.componentes
-            while actual_componente:
-                if actual_componente.segundoActual == 0:
+        actualLinea = self.primerLinea
+        while actualLinea:
+            componenteActual = actualLinea.componentes
+            while componenteActual:
+                if componenteActual.segundoActual == 0:
                     return False
-                actual_componente = actual_componente.siguiente
-            actual_linea = actual_linea.siguiente
+                componenteActual = componenteActual.siguiente
+            actualLinea = actualLinea.siguiente
         return True
                 

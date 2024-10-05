@@ -1,12 +1,12 @@
 // Cola
 digraph {
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E930> [label=L1C2]
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E930> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E960>
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E960> [label=L4C1]
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E960> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E990>
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E990> [label=L3C3]
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E990> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E9C0>
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E9C0> [label=L5C0]
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E9C0> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E9F0>
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E9F0> [label=L2C2]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x00000169882DEA50> [label=L1C2]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x00000169882DEA50> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x00000169882DEA80>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x00000169882DEA80> [label=L4C1]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x00000169882DEA80> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x00000169882DEAB0>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x00000169882DEAB0> [label=L3C3]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x00000169882DEAB0> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x00000169882DEAE0>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x00000169882DEAE0> [label=L5C0]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x00000169882DEAE0> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x00000169882DEB10>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x00000169882DEB10> [label=L2C2]
 }
