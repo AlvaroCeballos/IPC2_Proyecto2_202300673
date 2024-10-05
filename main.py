@@ -20,30 +20,38 @@ def lecturaXML():
     try:
         if 'xmlFile' not in request.files:
             flash("No se encontró el archivo XML", "error")
-            return redirect("LeerXML")
+            return redirect(url_for('leer'))
         
         file = request.files['xmlFile']
         
         if file.filename == '':
             flash("Por favor seleccionar un archivo XML", "error")
-            return redirect("LeerXML")
+            return redirect(url_for('leer'))
         
         if file and file.filename.endswith('.xml'):
             xmlString = file.read().decode('utf-8')
             lecturaXMLActual(xmlString)
             flash("Archivo XML leído correctamente", "success")
-            return redirect("LeerXML")
+            return redirect(url_for('leer'))
         else:
             flash("Por favor seleccionar un archivo XML válido", "error")
-            return redirect("LeerXML")
+            return redirect(url_for('leer'))
     except Exception as e:
         flash(f"Error al leer el archivo XML: {e}", "error")
-        return redirect("LeerXML")
+        return redirect(url_for('leer'))
 
-@app.route('/salidaArchivosht')
-def listarTabla():
-    tabla_html = generarTablaHTML(listaGlobalMaquinasLectura)
-    return render_template('archivosSalida.html', tabla_html=tabla_html)
+@app.route('/buscarProducto', methods=['GET', 'POST'])
+def buscarProducto():
+    if request.method == 'POST':
+        nombreProducto = request.form['nombreProducto']
+        producto = buscarProductoEnMaquinas(nombreProducto)
+        if producto:
+            tabla_html = producto.tabla_html
+        else:
+            flash("Producto no encontrado", "error")
+            tabla_html = ""
+        return render_template('archivosSalida.html', tabla_html=tabla_html)
+    return render_template('archivosSalida.html', tabla_html="")
 
 @app.route('/borrarDatos', methods=['POST'])
 def borrarDatos():
@@ -124,6 +132,16 @@ def lecturaXMLActual(xmlString):
                             contador += 1
                         actual_linea = actual_linea.siguiente
 
+                # Generar la tabla HTML para el producto
+                tabla_html = generarTablaHTML(lista_lineas_produccion)
+                # Asignar la tabla HTML al producto actual
+                producto_nodo = conjuntoProductos.primerProducto
+                while producto_nodo:
+                    if producto_nodo.nombreProducto == nombreProducto:
+                        producto_nodo.tabla_html = tabla_html
+                        break
+                    producto_nodo = producto_nodo.siguienteProducto
+
             listaGlobalMaquinasLectura.InsertarMaquina(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos, cola_elaboracion, lista_lineas_produccion)
 
         actualMaquina = listaGlobalMaquinasLectura.primerMaquina
@@ -149,49 +167,55 @@ def reiniciarListaGlobal():
     global listaGlobalMaquinasLectura
     listaGlobalMaquinasLectura = listaMaquinasXML()
 
-def generarTablaHTML(listado):
+def buscarProductoEnMaquinas(nombreProducto):
+    actualMaquina = listaGlobalMaquinasLectura.primerMaquina
+    while actualMaquina:
+        actualProducto = actualMaquina.conjuntoProductos.primerProducto
+        while actualProducto:
+            if actualProducto.nombreProducto == nombreProducto:
+                return actualProducto
+            actualProducto = actualProducto.siguienteProducto
+        actualMaquina = actualMaquina.siguienteMaquina
+    return None
+
+def generarTablaHTML(lista_lineas_produccion):
     tabla = "<table class='w-full table-auto'>"
     tabla += "<thead><tr><th>Tiempo</th>"
-    actualMaquina = listado.primerMaquina
-    if actualMaquina:
-        actualLinea = actualMaquina.lista_lineas_produccion.primerLinea
-        while actualLinea:
-            tabla += f"<th>Línea {actualLinea.linea}</th>"
-            actualLinea = actualLinea.siguiente
+    
+    actualLinea = lista_lineas_produccion.primerLinea
+    while actualLinea:
+        tabla += f"<th>Línea {actualLinea.linea}</th>"
+        actualLinea = actualLinea.siguiente
     tabla += "</tr></thead><tbody>"
 
     max_segundo = 0
-    actualMaquina = listado.primerMaquina
-    if actualMaquina:
-        actualLinea = actualMaquina.lista_lineas_produccion.primerLinea
-        while actualLinea:
-            componente = actualLinea.componentes
-            while componente:
-                if componente.segundoActual > max_segundo:
-                    max_segundo = componente.segundoActual
-                componente = componente.siguiente
-            actualLinea = actualLinea.siguiente
+    actualLinea = lista_lineas_produccion.primerLinea
+    while actualLinea:
+        componente = actualLinea.componentes
+        while componente:
+            if componente.segundoActual > max_segundo:
+                max_segundo = componente.segundoActual
+            componente = componente.siguiente
+        actualLinea = actualLinea.siguiente
 
     for segundo in range(1, max_segundo + 1):
         tabla += f"<tr><td>{segundo}s</td>"
-        actualMaquina = listado.primerMaquina
-        if actualMaquina:
-            actualLinea = actualMaquina.lista_lineas_produccion.primerLinea
-            while actualLinea:
-                componente = actualLinea.componentes
-                encontrado = False
-                while componente:
-                    if componente.segundoActual == segundo:
-                        tabla += f"<td>{componente.componente}"
-                        if componente.ensamblar:
-                            tabla += " (Ensamblar)"
-                        tabla += "</td>"
-                        encontrado = True
-                        break
-                    componente = componente.siguiente
-                if not encontrado:
-                    tabla += "<td>No hace nada</td>"
-                actualLinea = actualLinea.siguiente
+        actualLinea = lista_lineas_produccion.primerLinea
+        while actualLinea:
+            componente = actualLinea.componentes
+            encontrado = False
+            while componente:
+                if componente.segundoActual == segundo:
+                    tabla += f"<td>{componente.componente}"
+                    if componente.ensamblar:
+                        tabla += " (Ensamblar)"
+                    tabla += "</td>"
+                    encontrado = True
+                    break
+                componente = componente.siguiente
+            if not encontrado:
+                tabla += "<td>No hace nada</td>"
+            actualLinea = actualLinea.siguiente
         tabla += "</tr>"
     tabla += "</tbody></table>"
     return tabla
@@ -200,7 +224,3 @@ if __name__ == '__main__':
     slc = 0
     listaDoble = ListaEnlazadaDoble()
     app.run(debug=True)
-
-    
-
-    

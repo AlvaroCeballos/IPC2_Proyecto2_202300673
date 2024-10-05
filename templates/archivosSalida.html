@@ -19,6 +19,11 @@
   {% block contenido %}
   <div class="container mx-auto h-screen flex justify-center items-center">
       <div class="w-full rounded overflow-hidden shadow-lg bg-white mx-5">
+          <form action="{{ url_for('buscarProducto') }}" method="post">
+              <label for="nombreProducto">Nombre del Producto:</label>
+              <input type="text" id="nombreProducto" name="nombreProducto" required>
+              <button type="submit">Buscar</button>
+          </form>
           {{ tabla_html|safe }}
       </div>
   </div>
