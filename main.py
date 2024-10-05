@@ -8,7 +8,7 @@ from xml.dom import minidom
 import graphviz
 
 app = Flask(__name__)
-app.secret_key = 'pruebaClaveSuperSegura'
+app.secret_key = 'claveSeguraIPC2$$$$$'
 
 listaGlobalMaquinasLectura = listaMaquinasXML()
 
@@ -47,11 +47,11 @@ def buscarProducto():
         nombreProducto = request.form['nombreProducto']
         producto = buscarProductoEnMaquinas(nombreProducto)
         if producto:
-            tabla_html = producto.tabla_html
+            tabla = producto.tabla_html
         else:
-            flash("Producto no encontrado", "error")
-            tabla_html = ""
-        return render_template('archivosSalida.html', tabla_html=tabla_html)
+            flash("Ingrese correctamente el nombre del producto", "error")
+            tabla = ""
+        return render_template('archivosSalida.html', tabla_html=tabla)
     return render_template('archivosSalida.html', tabla_html="")
 
 @app.route('/generarCola', methods=['POST'])
@@ -59,17 +59,17 @@ def generarCola():
     nombreProducto = request.form['nombreProducto']
     producto = buscarProductoEnMaquinas(nombreProducto)
     if producto:
-        dot = graphviz.Digraph(comment='Cola de Elaboración')
-        nodo_actual = producto.cola_elaboracion.frente
-        while nodo_actual:
-            dot.node(str(nodo_actual), nodo_actual.paso)
-            if nodo_actual.siguiente:
-                dot.edge(str(nodo_actual), str(nodo_actual.siguiente))
-            nodo_actual = nodo_actual.siguiente
+        dot = graphviz.Digraph(comment='Cola')
+        actual = producto.cola_elaboracion.frente
+        while actual:
+            dot.node(str(actual), actual.paso)
+            if actual.siguiente:
+                dot.edge(str(actual), str(actual.siguiente))
+            actual = actual.siguiente
         dot.render('cola_elaboracion.gv', view=False)
         return send_file('cola_elaboracion.gv.pdf', as_attachment=True)
     else:
-        flash("Producto no encontrado", "error")
+        flash("Ingrese correctamente el nombre del producto", "error")
         return redirect(url_for('buscarProducto'))
 
 @app.route('/borrarDatos', methods=['POST'])
@@ -226,9 +226,9 @@ def generarTablaHTML(lista_lineas_produccion):
             encontrado = False
             while componente:
                 if componente.segundoActual == segundo:
-                    tabla += f"<td class='border px-4 py-2'>{componente.componente}"
+                    tabla += f"<td class='border px-4 py-2'> Se mueve a componente {componente.componente}"
                     if componente.ensamblar:
-                        tabla += " (Ensamblar)"
+                        tabla += " - Ensamblado componente"
                     tabla += "</td>"
                     encontrado = True
                     break

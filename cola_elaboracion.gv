@@ -1,12 +1,12 @@
-// Cola de Elaboración
+// Cola
 digraph {
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000001F7695CEBA0> [label=L1C2]
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000001F7695CEBA0> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000001F7695CEBD0>
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000001F7695CEBD0> [label=L4C1]
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000001F7695CEBD0> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000001F7695CEC00>
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000001F7695CEC00> [label=L3C3]
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000001F7695CEC00> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000001F7695CEC30>
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000001F7695CEC30> [label=L5C0]
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000001F7695CEC30> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000001F7695CEC60>
-	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000001F7695CEC60> [label=L2C2]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E930> [label=L1C2]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E930> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E960>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E960> [label=L4C1]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E960> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E990>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E990> [label=L3C3]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E990> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E9C0>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E9C0> [label=L5C0]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E9C0> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E9F0>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x000002403388E9F0> [label=L2C2]
 }
