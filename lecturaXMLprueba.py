@@ -24,6 +24,7 @@ def lecturaXMLActual(xmlString):
 
         maquinasLecturaActual = raizActualXML.getElementsByTagName('Maquina')
 
+
         for maquinaActualLexturaXML in maquinasLecturaActual:
             nombreM = obtenerContextoActualLectura(maquinaActualLexturaXML, 'NombreMaquina')
             cantidadLineas = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'CantidadLineasProduccion'))
@@ -37,35 +38,13 @@ def lecturaXMLActual(xmlString):
                 nombreProducto = obtenerContextoActualLectura(productoActualLect, 'nombre')
                 elaboracion = obtenerContextoActualLectura(productoActualLect, 'elaboracion')
                 conjuntoProductos.insertarProductoXML(nombreProducto, elaboracion)
-
-            listaGlobalMaquinasLectura.InsertarMaquina(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos)
-
-        # Mostrar información de las máquinas después de insertar todas
-        actualMaquina = listaGlobalMaquinasLectura.primerMaquina
-        while actualMaquina:
-            print(f"Nombre maquina actual: {actualMaquina.nombreM}")
-            print(f"Total actual de lineas de produccion: {actualMaquina.cantidadLineas}")
-            print(f"Componentes actuales: {actualMaquina.cantidadComponentes}")
-            print(f"Tiempo en ensamblar una pieza: {actualMaquina.tiempoEnsamblajeA} segundos")
-            print("Lista productos maquina actual:")
-            actualProducto = actualMaquina.conjuntoProductos.primerProducto
-            while actualProducto:
-                print(f"Nombre actual de producto: {actualProducto.nombreProducto}")
-                print(" Elaboracion proceso:")
-                for paso in actualProducto.elaboracion.split():
-                    print(f"  - {paso}")
-                actualProducto = actualProducto.siguienteProducto
-
-            # Simulación del tiempo actual y visualización
-            for productoActualLect in productosActualesMaquinaLectura:
-                nombreProducto = obtenerContextoActualLectura(productoActualLect, 'nombre')
-                elaboracion = obtenerContextoActualLectura(productoActualLect, 'elaboracion')
                 
                 # Crear la cola de elaboración
                 cola_elaboracion = ColaElaboracion()
                 pasos_elaboracion = elaboracion.split()
                 for paso in pasos_elaboracion:
                     cola_elaboracion.encolar(paso)  # Encolar L#C# como una sola cadena
+
 
                 # Crear la lista de listas para las líneas de producción y componentes
                 lista_lineas_produccion = ListaLineasProduccion()
@@ -101,7 +80,30 @@ def lecturaXMLActual(xmlString):
                             contador += 1
                         actual_linea = actual_linea.siguiente
 
-            actualMaquina = actualMaquina.siguienteMaquina
+                # # Verificar la cola de elaboración
+                # print(f"Cola de elaboración para {nombreProducto}:")
+                # nodo_actual = cola_elaboracion.frente
+                # while nodo_actual:
+                #     print(f"Paso: {nodo_actual.paso}")
+                #     nodo_actual = nodo_actual.siguiente
+
+            listaGlobalMaquinasLectura.InsertarMaquina(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos)
+
+        # actualMaquina = listaGlobalMaquinasLectura.primerMaquina
+        # while actualMaquina:
+        #     print(f"Nombre maquina actual: {actualMaquina.nombreM}")
+        #     print(f"Total actual de lineas de produccion: {actualMaquina.cantidadLineas}")
+        #     print(f"Componentes actuales: {actualMaquina.cantidadComponentes}")
+        #     print(f"Tiempo en ensamblar una pieza: {actualMaquina.tiempoEnsamblajeA} segundos")
+        #     print("Lista productos maquina actual:")
+        #     actualProducto = actualMaquina.conjuntoProductos.primerProducto
+        #     while actualProducto:
+        #         print(f"Nombre actual de producto: {actualProducto.nombreProducto}")
+        #         print(" Elaboracion proceso:")
+        #         for paso in actualProducto.elaboracion.split():
+        #             print(f"  - {paso}")
+        #         actualProducto = actualProducto.siguienteProducto
+        #     actualMaquina = actualMaquina.siguienteMaquina
 
     except Exception as errorActualLectura:
         print(f"Error de lectura XML: {errorActualLectura}")
