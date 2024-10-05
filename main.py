@@ -47,12 +47,12 @@ def buscarProducto():
         nombreProducto = request.form['nombreProducto']
         producto = buscarProductoEnMaquinas(nombreProducto)
         if producto:
-            tabla = producto.tabla_html
+            tabla = producto.tablaC
         else:
             flash("Ingrese correctamente el nombre del producto", "error")
             tabla = ""
-        return render_template('archivosSalida.html', tabla_html=tabla)
-    return render_template('archivosSalida.html', tabla_html="")
+        return render_template('archivosSalida.html', tablaC=tabla)
+    return render_template('archivosSalida.html', tablaC="")
 
 @app.route('/generarCola', methods=['POST'])
 def generarCola():
@@ -60,14 +60,14 @@ def generarCola():
     producto = buscarProductoEnMaquinas(nombreProducto)
     if producto:
         dot = graphviz.Digraph(comment='Cola')
-        actual = producto.cola_elaboracion.frente
+        actual = producto.colaK.frente
         while actual:
             dot.node(str(actual), actual.paso)
             if actual.siguiente:
                 dot.edge(str(actual), str(actual.siguiente))
             actual = actual.siguiente
-        dot.render('cola_elaboracion.gv', view=False)
-        return send_file('cola_elaboracion.gv.pdf', as_attachment=True)
+        dot.render('colaK.gv', view=False)
+        return send_file('colaK.gv.pdf', as_attachment=True)
     else:
         flash("Ingrese correctamente el nombre del producto", "error")
         return redirect(url_for('buscarProducto'))
@@ -82,7 +82,7 @@ def borrarDatos():
 def listar():
     return render_template('index.html')
 
-def obtenerContextoActualLectura(elementoActualLectura, tagActualLectura):
+def inicializacionParametroXML(elementoActualLectura, tagActualLectura):
     elementoTagA = elementoActualLectura.getElementsByTagName(tagActualLectura)
     if elementoTagA:
         for nodoActualL in elementoTagA:
@@ -98,85 +98,77 @@ def lecturaXMLActual(xmlString):
         maquinasLecturaActual = raizActualXML.getElementsByTagName('Maquina')
 
         for maquinaActualLexturaXML in maquinasLecturaActual:
-            nombreM = obtenerContextoActualLectura(maquinaActualLexturaXML, 'NombreMaquina')
-            cantidadLineas = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'CantidadLineasProduccion'))
-            cantidadComponentes = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'CantidadComponentes'))
-            tiempoEnsamblajeA = int(obtenerContextoActualLectura(maquinaActualLexturaXML, 'TiempoEnsamblaje'))
+            nombreM = inicializacionParametroXML(maquinaActualLexturaXML, 'NombreMaquina')
+            cantidadLineas = int(inicializacionParametroXML(maquinaActualLexturaXML, 'CantidadLineasProduccion'))
+            cantidadComponentes = int(inicializacionParametroXML(maquinaActualLexturaXML, 'CantidadComponentes'))
+            tiempoEnsamblajeA = int(inicializacionParametroXML(maquinaActualLexturaXML, 'TiempoEnsamblaje'))
 
             productosActualesMaquinaLectura = maquinaActualLexturaXML.getElementsByTagName('Producto')
             conjuntoProductos = listaProductosXML()
 
             for productoActualLect in productosActualesMaquinaLectura:
-                nombreProducto = obtenerContextoActualLectura(productoActualLect, 'nombre')
-                elaboracion = obtenerContextoActualLectura(productoActualLect, 'elaboracion')
+                nombreProducto = inicializacionParametroXML(productoActualLect, 'nombre')
+                elaboracion = inicializacionParametroXML(productoActualLect, 'elaboracion')
                 conjuntoProductos.insertarProductoXML(nombreProducto, elaboracion)
                 
-                # Crear la cola de elaboración
-                cola_elaboracion = ColaElaboracion()
-                pasos_elaboracion = elaboracion.split()
-                for paso in pasos_elaboracion:
-                    cola_elaboracion.encolar(paso)  # Encolar L#C# como una sola cadena
-
-                # Crear la lista de listas para las líneas de producción y componentes
+                colaK = ColaElaboracion()
+                pasosE = elaboracion.split()
+                for paso in pasosE:
+                    colaK.insertarCola(paso)  
                 segundoActual = 0
-                lista_lineas_produccion = ListaLineasProduccion()
-                nodo_actual = cola_elaboracion.frente
-                while nodo_actual:
-                    linea, componente = nodo_actual.paso.split('C')
-                    linea = int(linea[1:])  # Remover 'L' y convertir a entero
+                lineasProduccion = ListaLineasProduccion()
+                nodoActual = colaK.frente
+                while nodoActual:
+                    linea, componente = nodoActual.paso.split('C')
+                    linea = int(linea[1:])  
                     componente = int(componente)
-                    lista_lineas_produccion.insertarLinea(linea)
-                    lista_lineas_produccion.insertarComponente(linea, componente, cantidadComponentes, segundoActual)
-                    nodo_actual = nodo_actual.siguiente
+                    lineasProduccion.insertarLinea(linea)
+                    lineasProduccion.insertarComponente(linea, componente, cantidadComponentes, segundoActual)
+                    nodoActual = nodoActual.siguiente
 
                 print(f"Producto a ensamblar: {nombreProducto}")
-
-                while not lista_lineas_produccion.todasListasRecorridas():
+                while not lineasProduccion.recorrerTodasListas():
                     segundoActual += 1
-                    lista_lineas_produccion.avanzarSegundo(segundoActual)
-                    
-                    # Verificar la lista de listas
+                    lineasProduccion.segundoComponenteT(segundoActual)
                     print(f"Segundo {segundoActual}:")
-                    actualLinea = lista_lineas_produccion.primerLinea
+                    actualLinea = lineasProduccion.primerLinea
                     while actualLinea:
                         print(f"Línea {actualLinea.linea}:")
                         componenteActual = actualLinea.componentes
                         contador = 1
                         while componenteActual:
                             if componenteActual.segundoActual == segundoActual:
-                                ensamblar_str = " (ensamblar)" if componenteActual.ensamblar else ""
-                                print(f"  Componente: {componenteActual.componente}{ensamblar_str}")
+                                ensamblar_str = " Ensamblaje" if componenteActual.ensamblar else ""
+                                print(f"  Componente {componenteActual.componente}{ensamblar_str}")
                                 break
                             componenteActual = componenteActual.siguiente
                             contador += 1
                         actualLinea = actualLinea.siguiente
 
-                # Generar la tabla HTML para el producto
-                tabla_html = generarTablaHTML(lista_lineas_produccion)
-                # Asignar la tabla HTML al producto actual
-                producto_nodo = conjuntoProductos.primerProducto
-                while producto_nodo:
-                    if producto_nodo.nombreProducto == nombreProducto:
-                        producto_nodo.tabla_html = tabla_html
-                        producto_nodo.cola_elaboracion = cola_elaboracion  # Asignar la cola de elaboración
+                tablaC = tablaComponentes(lineasProduccion)
+                nodoPr = conjuntoProductos.primerProducto
+                while nodoPr:
+                    if nodoPr.nombreProducto == nombreProducto:
+                        nodoPr.tablaC = tablaC
+                        nodoPr.colaK = colaK  
                         break
-                    producto_nodo = producto_nodo.siguienteProducto
+                    nodoPr = nodoPr.siguienteProducto
 
-            listaGlobalMaquinasLectura.InsertarMaquina(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos, cola_elaboracion, lista_lineas_produccion)
+            listaGlobalMaquinasLectura.InsertarMaquina(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos, colaK, lineasProduccion)
 
         actualMaquina = listaGlobalMaquinasLectura.primerMaquina
         while actualMaquina:
-            print(f"Nombre maquina actual: {actualMaquina.nombreM}")
-            print(f"Total actual de lineas de produccion: {actualMaquina.cantidadLineas}")
-            print(f"Componentes actuales: {actualMaquina.cantidadComponentes}")
-            print(f"Tiempo en ensamblar una pieza: {actualMaquina.tiempoEnsamblajeA} segundos")
+            print(f"Nombre de maquiina: {actualMaquina.nombreM}")
+            print(f"Lineas de produccion: {actualMaquina.cantidadLineas}")
+            print(f"Componentes: {actualMaquina.cantidadComponentes}")
+            print(f"Tiempo de ensamblaje: {actualMaquina.tiempoEnsamblajeA} segundos")
             print("Lista productos maquina actual:")
             actualProducto = actualMaquina.conjuntoProductos.primerProducto
             while actualProducto:
                 print(f"Nombre actual de producto: {actualProducto.nombreProducto}")
-                print(" Elaboracion proceso:")
+                print(" Cola:")
                 for paso in actualProducto.elaboracion.split():
-                    print(f"  - {paso}")
+                    print(f"{paso}")
                 actualProducto = actualProducto.siguienteProducto
             actualMaquina = actualMaquina.siguienteMaquina
 
@@ -198,29 +190,29 @@ def buscarProductoEnMaquinas(nombreProducto):
         actualMaquina = actualMaquina.siguienteMaquina
     return None
 
-def generarTablaHTML(lista_lineas_produccion):
+def tablaComponentes(lineasProduccion):
     tabla = "<table class='min-w-full bg-white'>"
     tabla += "<thead><tr><th class='py-2'>Tiempo</th>"
     
-    actualLinea = lista_lineas_produccion.primerLinea
+    actualLinea = lineasProduccion.primerLinea
     while actualLinea:
         tabla += f"<th class='py-2'>Línea {actualLinea.linea}</th>"
         actualLinea = actualLinea.siguiente
     tabla += "</tr></thead><tbody>"
 
-    max_segundo = 0
-    actualLinea = lista_lineas_produccion.primerLinea
+    segundoT = 0
+    actualLinea = lineasProduccion.primerLinea
     while actualLinea:
         componente = actualLinea.componentes
         while componente:
-            if componente.segundoActual > max_segundo:
-                max_segundo = componente.segundoActual
+            if componente.segundoActual > segundoT:
+                segundoT = componente.segundoActual
             componente = componente.siguiente
         actualLinea = actualLinea.siguiente
 
-    for segundo in range(1, max_segundo + 1):
+    for segundo in range(1, segundoT + 1):
         tabla += f"<tr class='bg-gray-100'><td class='border px-4 py-2'>{segundo}s</td>"
-        actualLinea = lista_lineas_produccion.primerLinea
+        actualLinea = lineasProduccion.primerLinea
         while actualLinea:
             componente = actualLinea.componentes
             encontrado = False

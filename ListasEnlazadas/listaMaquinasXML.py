@@ -6,8 +6,8 @@ class listaMaquinasXML:
     def __init__(self):
         self.primerMaquina = None
 
-    def InsertarMaquina(self, nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos, cola_elaboracion, lista_lineas_produccion):
-        nuevaMaquina = nodoMaquinaXML(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos, cola_elaboracion, lista_lineas_produccion)
+    def InsertarMaquina(self, nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos, colaK, lineasProduccion):
+        nuevaMaquina = nodoMaquinaXML(nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos, colaK, lineasProduccion)
         if not self.primerMaquina:
             self.primerMaquina = nuevaMaquina
         else:

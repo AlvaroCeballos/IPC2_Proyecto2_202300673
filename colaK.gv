@@ -1,0 +1,12 @@
+// Cola
+digraph {
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000012CDB0EEA20> [label=L1C2]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000012CDB0EEA20> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000012CDB0EEA50>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000012CDB0EEA50> [label=L4C1]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000012CDB0EEA50> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000012CDB0EEA80>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000012CDB0EEA80> [label=L3C3]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000012CDB0EEA80> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000012CDB0EEAB0>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000012CDB0EEAB0> [label=L5C0]
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000012CDB0EEAB0> -> <ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000012CDB0EEAE0>
+	<ListasEnlazadas.nodoCola.NodoElaboracion object at 0x0000012CDB0EEAE0> [label=L2C2]
+}

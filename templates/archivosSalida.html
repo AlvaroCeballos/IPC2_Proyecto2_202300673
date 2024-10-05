@@ -24,8 +24,8 @@
             <input type="text" id="nombreProducto" name="nombreProducto" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2">Buscar</button>
         </form>
-        {{ tabla_html|safe }}
-        {% if tabla_html %}
+        {{ tablaC|safe }}
+        {% if tablaC %}
         <form action="{{ url_for('generarCola') }}" method="post" class="mt-4">
             <input type="hidden" name="nombreProducto" value="{{ request.form['nombreProducto'] }}">
             <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Generar cola</button>

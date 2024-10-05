@@ -1,10 +1,10 @@
 class nodoMaquinaXML:
-    def __init__(self, nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos, cola_elaboracion, lista_lineas_produccion):
+    def __init__(self, nombreM, cantidadLineas, cantidadComponentes, tiempoEnsamblajeA, conjuntoProductos, colaK, lineasProduccion):
         self.nombreM = nombreM
         self.cantidadLineas = cantidadLineas
         self.cantidadComponentes = cantidadComponentes
         self.tiempoEnsamblajeA = tiempoEnsamblajeA
         self.conjuntoProductos = conjuntoProductos
-        self.cola_elaboracion = cola_elaboracion
-        self.lista_lineas_produccion = lista_lineas_produccion
+        self.colaK = colaK
+        self.lineasProduccion = lineasProduccion
         self.siguienteMaquina = None

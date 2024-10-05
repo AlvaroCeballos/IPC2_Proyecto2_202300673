@@ -5,7 +5,7 @@ class ColaElaboracion:
         self.frente = None
         self.final = None
 
-    def encolar(self, paso):
+    def insertarCola(self, paso):
         nuevo_nodo = NodoElaboracion(paso)
         if not self.frente:
             self.frente = self.final = nuevo_nodo
@@ -13,7 +13,7 @@ class ColaElaboracion:
             self.final.siguiente = nuevo_nodo
             self.final = nuevo_nodo
 
-    def desencolar(self):
+    def kCOla(self):
         if not self.frente:
             return None
         nodo = self.frente
@@ -22,5 +22,5 @@ class ColaElaboracion:
             self.final = None
         return nodo
 
-    def esta_vacia(self):
+    def empty(self):
         return self.frente is None

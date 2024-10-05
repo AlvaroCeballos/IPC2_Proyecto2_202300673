@@ -46,7 +46,7 @@ class ListaLineasProduccion:
                     componenteActual.segundoActual = segundoActual
                 componenteActual = componenteActual.siguiente
 
-    def avanzarSegundo(self, segundo):
+    def segundoComponenteT(self, segundo):
         actualLinea = self.primerLinea
         while actualLinea:
             componenteActual = actualLinea.componentes
@@ -58,7 +58,7 @@ class ListaLineasProduccion:
                 contador += 1
             actualLinea = actualLinea.siguiente
 
-    def todasListasRecorridas(self):
+    def recorrerTodasListas(self):
         actualLinea = self.primerLinea
         while actualLinea:
             componenteActual = actualLinea.componentes
